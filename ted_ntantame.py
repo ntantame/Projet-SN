@@ -14,12 +14,66 @@ st.set_page_config(page_title="Orange Analytics", page_icon="🍊",
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/*  Variables light mode*/
 :root {
   --o1:#FF6B00; --o2:#FF9A3C; --o3:#FFB866; --o4:#FFF3E0;
-  --dark:#1A0A00; --mid:#5C3010; --muted:#9E7A5A;
-  --surf:#FFFDF9; --bdr:rgba(255,107,0,0.15);
+  --dark:#1A0A00; --mid:#5C3010; --muted:#7A5A3A;
+  --surf:#FFFDF9; --bdr:rgba(255,107,0,0.18);
   --green:#2E7D4F; --red:#C0392B; --blue:#1A5F8A;
+  --card-bg: white;
+  --card-txt: #1A0A00;
+  --card-sub: #7A5A3A;
+  --card-ref: #999;
+  --card-sep: #F0EDE8;
+  --corr-bg: white;
+  --corr-track: #F0EDE8;
+  --ins-gn-bg:#F0FBF4; --ins-gn-bd:rgba(46,125,79,.25); --ins-gn-t:#1E5E38;
+  --ins-am-bg:#FFFBF0; --ins-am-bd:rgba(255,160,0,.3);  --ins-am-t:#7A4800;
+  --ins-rd-bg:#FEF3F2; --ins-rd-bd:rgba(196,57,45,.25); --ins-rd-t:#8B1F13;
+  --ins-bl-bg:#F0F7FF; --ins-bl-bd:rgba(26,95,138,.25); --ins-bl-t:#0E3A57;
+  --ins-tx: #5C3010;
+  --bdg-s-bg:#DCF5E8; --bdg-s-c:#1E5E38;
+  --bdg-n-bg:#F0EDE8; --bdg-n-c:#555;
+  --bdg-g-bg:#FFF3CD; --bdg-g-c:#7A4800;
+  --stat-c:#7A5A3A; --interp-c:#5C3010;
+  --sec-c:#1A0A00; --secs-c:#7A5A3A;
+  --plt-bg: #1E1E1E;
+  --plt-paper: #252525;
+  --plt-grid: rgba(255,255,255,0.08);
+  --plt-txt: #F0F0F0;
+  --plt-sub: #BBBBBB;
+  --plt-ann: #E0E0E0;
+  --plt-ann-note: #FFB866;
 }
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dark:#FFE0C0; --mid:#FFB866; --muted:#CC8844;
+    --surf:#111111; --bdr:rgba(255,150,50,0.25);
+    --card-bg:#1E1A16; --card-txt:#FFE8D0; --card-sub:#CC8844;
+    --card-ref:#886644; --card-sep:#2A2018;
+    --corr-bg:#1E1A16; --corr-track:#2A2018;
+    --ins-gn-bg:#0D2018; --ins-gn-bd:rgba(46,200,100,.3); --ins-gn-t:#5BE89A;
+    --ins-am-bg:#1E1608; --ins-am-bd:rgba(255,180,50,.3);  --ins-am-t:#FFB84A;
+    --ins-rd-bg:#1E0D0D; --ins-rd-bd:rgba(240,80,80,.3);   --ins-rd-t:#FF7070;
+    --ins-bl-bg:#0D1620; --ins-bl-bd:rgba(60,140,240,.3);  --ins-bl-t:#60AAFF;
+    --ins-tx:#DDCCBB;
+    --bdg-s-bg:#0D2018; --bdg-s-c:#5BE89A;
+    --bdg-n-bg:#2A2018; --bdg-n-c:#AAAAAA;
+    --bdg-g-bg:#201808; --bdg-g-c:#FFB84A;
+    --stat-c:#CC8844; --interp-c:#DDCCBB;
+    --sec-c:#FFE0C0; --secs-c:#CC8844;
+  }
+  .stApp {
+    background:#111111 !important;
+    background-image: none !important;
+  }
+  .sec { color: var(--sec-c) !important; }
+  .sec-s { color: var(--secs-c) !important; }
+}
+
 html,body,[class*="css"]{ font-family:'DM Sans',sans-serif; }
 .stApp{
   background:var(--surf);
@@ -27,7 +81,7 @@ html,body,[class*="css"]{ font-family:'DM Sans',sans-serif; }
     radial-gradient(ellipse at 10% 20%,rgba(255,154,60,.07) 0%,transparent 50%),
     radial-gradient(ellipse at 90% 80%,rgba(255,107,0,.05) 0%,transparent 50%);
 }
-[data-testid="stSidebar"]{background:var(--dark)!important;border-right:1px solid rgba(255,107,0,.2);}
+[data-testid="stSidebar"]{background:#1A0A00 !important;border-right:1px solid rgba(255,107,0,.2);}
 [data-testid="stSidebar"] *{color:rgba(255,255,255,.85)!important;}
 [data-testid="stSidebar"] .stRadio label{padding:8px 12px;border-radius:8px;transition:.2s;}
 [data-testid="stSidebar"] .stRadio label:hover{background:rgba(255,107,0,.18)!important;}
@@ -38,48 +92,54 @@ html,body,[class*="css"]{ font-family:'DM Sans',sans-serif; }
   font-size:90px;opacity:.18;filter:blur(2px);}
 .hero::after{content:'';position:absolute;inset:0;
   background:repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(255,255,255,.015) 40px,rgba(255,255,255,.015) 41px);pointer-events:none;}
-.hero-eye{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--o2);margin:0 0 10px;}
+.hero-eye{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#FF9A3C;margin:0 0 10px;}
 .hero h1{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:white;margin:0 0 10px;line-height:1.1;}
 .hero-sub{font-size:.98rem;color:rgba(255,255,255,.65);margin:0;font-weight:300;max-width:520px;}
 
-.sec{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--dark);
-  margin:28px 0 4px;padding-bottom:8px;border-bottom:2px solid var(--o1);}
-.sec-s{font-size:.83rem;color:var(--muted);margin:0 0 18px;font-style:italic;}
+.sec{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--sec-c);
+  margin:28px 0 4px;padding-bottom:8px;border-bottom:2px solid #FF6B00;}
+.sec-s{font-size:.83rem;color:var(--secs-c);margin:0 0 18px;font-style:italic;}
 
-.kpi{background:white;border-radius:14px;padding:20px 22px;border:1px solid var(--bdr);
-  box-shadow:0 2px 12px rgba(255,107,0,.06);position:relative;overflow:hidden;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--o1);}
-.kpi.g::before{background:var(--green)}.kpi.r::before{background:var(--red)}.kpi.b::before{background:var(--blue);}
-.kpi-lbl{font-size:.76rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 4px;}
-.kpi-val{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--dark);margin:0 0 4px;line-height:1;}
-.kpi-val span{font-size:.9rem;font-weight:400;color:var(--muted);font-family:'DM Sans',sans-serif;}
-.kpi-ref{font-size:.74rem;color:#BBB;margin:6px 0 0;border-top:1px solid #F0EDE8;padding-top:5px;}
+.kpi{background:var(--card-bg);border-radius:14px;padding:20px 22px;border:1px solid var(--bdr);
+  box-shadow:0 2px 12px rgba(255,107,0,.08);position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#FF6B00;}
+.kpi.g::before{background:#2E7D4F}.kpi.r::before{background:#C0392B}.kpi.b::before{background:#1A5F8A;}
+.kpi-lbl{font-size:.76rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--card-sub);margin:0 0 4px;}
+.kpi-val{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--card-txt);margin:0 0 4px;line-height:1;}
+.kpi-val span{font-size:.9rem;font-weight:400;color:var(--card-sub);font-family:'DM Sans',sans-serif;}
+.kpi-ref{font-size:.74rem;color:var(--card-ref);margin:6px 0 0;border-top:1px solid var(--card-sep);padding-top:5px;}
 
-.card{background:white;border-radius:14px;padding:20px 24px;border:1px solid var(--bdr);
-  box-shadow:0 2px 10px rgba(0,0,0,.04);margin-bottom:14px;}
+.card{background:var(--card-bg);border-radius:14px;padding:20px 24px;border:1px solid var(--bdr);
+  box-shadow:0 2px 10px rgba(0,0,0,.08);margin-bottom:14px;}
 .card-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.card-title{font-weight:600;font-size:.95rem;color:var(--dark);}
+.card-title{font-weight:600;font-size:.95rem;color:var(--card-txt);}
 .bdg{padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
-.bdg.s{background:#DCF5E8;color:#1E5E38;}.bdg.n{background:#F0EDE8;color:#777;}.bdg.g{background:#FFF3CD;color:#7A4800;}
-.stat-vals{font-size:.82rem;color:var(--muted);margin:0 0 8px;font-variant-numeric:tabular-nums;}
-.interp{font-size:.87rem;color:var(--mid);line-height:1.7;border-left:3px solid var(--o2);padding-left:12px;margin:10px 0 0;}
+.bdg.s{background:var(--bdg-s-bg);color:var(--bdg-s-c);}
+.bdg.n{background:var(--bdg-n-bg);color:var(--bdg-n-c);}
+.bdg.g{background:var(--bdg-g-bg);color:var(--bdg-g-c);}
+.stat-vals{font-size:.82rem;color:var(--stat-c);margin:0 0 8px;font-variant-numeric:tabular-nums;}
+.interp{font-size:.87rem;color:var(--interp-c);line-height:1.7;border-left:3px solid #FF9A3C;padding-left:12px;margin:10px 0 0;}
 
 .ins{border-radius:13px;padding:16px 20px;margin:10px 0;display:flex;gap:14px;align-items:flex-start;border:1px solid;}
-.ins.gn{background:#F0FBF4;border-color:rgba(46,125,79,.25);}
-.ins.am{background:#FFFBF0;border-color:rgba(255,160,0,.3);}
-.ins.rd{background:#FEF3F2;border-color:rgba(196,57,45,.25);}
-.ins.bl{background:#F0F7FF;border-color:rgba(26,95,138,.25);}
+.ins.gn{background:var(--ins-gn-bg);border-color:var(--ins-gn-bd);}
+.ins.am{background:var(--ins-am-bg);border-color:var(--ins-am-bd);}
+.ins.rd{background:var(--ins-rd-bg);border-color:var(--ins-rd-bd);}
+.ins.bl{background:var(--ins-bl-bg);border-color:var(--ins-bl-bd);}
 .ins-ic{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
 .ins-t{font-weight:600;font-size:.88rem;margin:0 0 4px;}
-.ins.gn .ins-t{color:#1E5E38;}.ins.am .ins-t{color:#7A4800;}.ins.rd .ins-t{color:#8B1F13;}.ins.bl .ins-t{color:#0E3A57;}
-.ins-tx{font-size:.85rem;line-height:1.65;margin:0;color:var(--mid);}
+.ins.gn .ins-t{color:var(--ins-gn-t);}.ins.am .ins-t{color:var(--ins-am-t);}
+.ins.rd .ins-t{color:var(--ins-rd-t);}.ins.bl .ins-t{color:var(--ins-bl-t);}
+.ins-tx{font-size:.85rem;line-height:1.65;margin:0;color:var(--ins-tx);}
 
 .corr-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:9px;
-  background:white;border:1px solid var(--bdr);margin-bottom:8px;}
-.corr-v{font-weight:600;font-size:.88rem;color:var(--dark);flex:1;}
+  background:var(--corr-bg);border:1px solid var(--bdr);margin-bottom:8px;}
+.corr-v{font-weight:600;font-size:.88rem;color:var(--card-txt);flex:1;}
 .corr-r{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;min-width:48px;text-align:right;}
-.corr-r.p{color:var(--green);}.corr-r.n{color:var(--red);}
-.corr-bw{flex:2;height:7px;background:#F0EDE8;border-radius:4px;overflow:hidden;}
+.corr-r.p{color:#2E7D4F;}.corr-r.n{color:#C0392B;}
+@media (prefers-color-scheme: dark) {
+  .corr-r.p{color:#5BE89A;}.corr-r.n{color:#FF7070;}
+}
+.corr-bw{flex:2;height:7px;background:var(--corr-track);border-radius:4px;overflow:hidden;}
 .corr-b{height:100%;border-radius:4px;}
 
 .sbl{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:900;
@@ -108,8 +168,31 @@ NLBL = {'Size(cm)':'Taille (cm)','Weight(g)':'Poids (g)',
         'Brix(Sweetness)':'Sucrosité (Brix)','pH(Acidity)':'pH / Acidité',
         'Softness(1-5)':'Mollesse','HarvestTime(days)':'Temps récolte (j)',
         'Ripeness(1-5)':'Maturité','Quality(1-5)':'Qualité'}
-BG = "rgba(0,0,0,0)"
-OSEQ = ['#FF6B00','#FF8C3C','#FFA866','#FFB47F','#FFCA99']
+BG        = "#1E1E1E"
+PLT_BG    = "#252525"
+PLT_TXT   = "#F0F0F0"
+PLT_SUB   = "#BBBBBB"
+PLT_ANN   = "#FFD580"
+PLT_WARN  = "#FF7070"
+PLT_GRID  = "rgba(255,255,255,0.07)"
+OSEQ      = ['#FF6B00','#FF8C3C','#FFA866','#FFB47F','#FFCA99']
+
+def plt_base(height=None, title_size=13):
+    d = dict(
+        paper_bgcolor=BG, plot_bgcolor=PLT_BG,
+        font=dict(family="DM Sans", color=PLT_TXT),
+        title_font=dict(size=title_size, color=PLT_TXT),
+        xaxis=dict(gridcolor=PLT_GRID, linecolor="rgba(255,255,255,0.15)",
+                   tickfont=dict(color=PLT_SUB), title_font=dict(color=PLT_SUB),
+                   zerolinecolor="rgba(255,255,255,0.15)"),
+        yaxis=dict(gridcolor=PLT_GRID, linecolor="rgba(255,255,255,0.15)",
+                   tickfont=dict(color=PLT_SUB), title_font=dict(color=PLT_SUB),
+                   zerolinecolor="rgba(255,255,255,0.15)"),
+        legend=dict(bgcolor="rgba(30,30,30,0.8)", font=dict(color=PLT_TXT),
+                    bordercolor="rgba(255,255,255,0.1)", borderwidth=1),
+    )
+    if height: d['height'] = height
+    return d
 
 # SIDEBAR 
 with st.sidebar:
@@ -142,7 +225,9 @@ pct_hq       = (fdf['Quality(1-5)']>=4).mean()*100
 pct_lq       = (fdf['Quality(1-5)']<=2).mean()*100
 pct_sd       = fdf['sans_defaut'].mean()*100
 
-# 1. VUE D'ENSEMBLE
+
+# VUE D'ENSEMBLE
+
 if "Vue d'ensemble" in page:
     st.markdown("""<div class="hero">
       <p class="hero-eye">TP Data Science · Analyse Exploratoire</p>
@@ -168,7 +253,7 @@ if "Vue d'ensemble" in page:
 
 
 # STATISTIQUES DESCRIPTIVES
-
+ ─────────────────────────────────────────────────────────────────────────────
 elif "Statistiques" in page:
     st.markdown('<div class="sec">📊 Statistiques Descriptives</div>', unsafe_allow_html=True)
 
@@ -189,7 +274,7 @@ elif "Statistiques" in page:
                  labels={sel: NLBL[sel], "Color": "Couleur"},
                  points="outliers")
     fig.update_layout(
-        paper_bgcolor=BG, plot_bgcolor="white", font_family="DM Sans",
+        paper_bgcolor=BG, plot_bgcolor=PLT_BG, font_family="DM Sans",
         yaxis_title=f"{NLBL[sel]}",
         xaxis_title="Couleur de l'orange",
         legend_title="Couleur",
@@ -197,13 +282,15 @@ elif "Statistiques" in page:
         annotations=[dict(
             x=1.0, y=1.08, xref="paper", yref="paper",
             text="💡 Trait central = médiane · Bords de boîte = Q1/Q3 · Points = valeurs extrêmes",
-            showarrow=False, font=dict(size=10, color="#9E7A5A"),
+            showarrow=False, font=dict(size=10, color=PLT_ANN),
             xanchor="right"
         )]
     )
     st.plotly_chart(fig, use_container_width=True)
 
+
 # DISTRIBUTIONS NUMÉRIQUES
+
 elif "Distributions" in page:
     st.markdown('<div class="sec">📉 Distribution des Variables Numériques</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Analyse univariée — Section 4 du notebook</div>', unsafe_allow_html=True)
@@ -223,12 +310,12 @@ elif "Distributions" in page:
             hovertemplate=f"<b>{NLBL[col]}</b><br>Valeur : %{{x}}<br>Nombre d'oranges : %{{y}}<extra></extra>"
         ), row=r, col=c)
         fig.add_vline(x=d.mean(), line_dash="dash", line_color="red", line_width=1.5, row=r, col=c)
-        fig.add_vline(x=d.median(), line_dash="dot", line_color="#1A5F8A", line_width=1.5, row=r, col=c)
+        fig.add_vline(x=d.median(), line_dash="dot", line_color="#60AAFF", line_width=1.5, row=r, col=c)
     fig.update_layout(
-        height=950, paper_bgcolor=BG, plot_bgcolor="white", font_family="DM Sans",
+        height=950, paper_bgcolor=BG, plot_bgcolor=PLT_BG, font_family="DM Sans",
         title_text="Vue d'ensemble — Distribution des 8 Variables Numériques",
         title_font_size=14,
-        title_font_color="#1A0A00"
+        title_font_color=PLT_TXT
     )
     # Axes labels sur chaque sous-graphique
     for i, col in enumerate(NUM):
@@ -265,19 +352,19 @@ elif "Distributions" in page:
                            marginal="box")
         fig.add_vline(x=d.mean(), line_dash="dash", line_color="red", line_width=2,
                       annotation_text=f"Moy. = {d.mean():.2f}", annotation_position="top right",
-                      annotation_font_color="red", annotation_font_size=11)
-        fig.add_vline(x=d.median(), line_dash="dot", line_color="#1A5F8A", line_width=2,
+                      annotation_font_color=PLT_WARN, annotation_font_size=11)
+        fig.add_vline(x=d.median(), line_dash="dot", line_color="#60AAFF", line_width=2,
                       annotation_text=f"Méd. = {d.median():.2f}", annotation_position="top left",
-                      annotation_font_color="#1A5F8A", annotation_font_size=11)
+                      annotation_font_color="#60AAFF", annotation_font_size=11)
         fig.update_layout(
-            paper_bgcolor=BG, plot_bgcolor="white", font_family="DM Sans",
+            paper_bgcolor=BG, plot_bgcolor=PLT_BG, font_family="DM Sans",
             xaxis_title=NLBL[col_choice],
             yaxis_title="Nombre d'oranges",
             title_font_size=13,
             annotations=[dict(
                 x=0.5, y=-0.22, xref="paper", yref="paper",
                 text=f"📊 Chaque barre = intervalle de valeurs · Hauteur = nombre d'oranges dans cet intervalle",
-                showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="center"
+                showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -287,19 +374,22 @@ elif "Distributions" in page:
                         title=f"Violin Plot — {NLBL[col_choice]}",
                         labels={col_choice: NLBL[col_choice]})
         fig.update_layout(
-            paper_bgcolor=BG, plot_bgcolor="white", font_family="DM Sans",
+            paper_bgcolor=BG, plot_bgcolor=PLT_BG, font_family="DM Sans",
             yaxis_title=NLBL[col_choice],
             xaxis_title="",
             title_font_size=13,
             annotations=[dict(
                 x=0.5, y=-0.18, xref="paper", yref="paper",
                 text="🎻 Largeur = densité de fruits à cette valeur · Boîte intérieure = Q1/médiane/Q3 · Points = valeurs extrêmes",
-                showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="center"
+                showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
 
+
 # VARIABLES CATÉGORIELLES
+ ───────────────────────────────────────────────────────────────────────────
+
 
 elif "catégorielles" in page:
     st.markdown('<div class="sec">🏷️ Analyse des Variables Catégorielles</div>', unsafe_allow_html=True)
@@ -316,12 +406,12 @@ elif "catégorielles" in page:
                  title="Nombre d'oranges par couleur — Répartition de la variable Color",
                  labels={'Color': 'Couleur de l\'orange', 'Nombre': 'Nombre d\'oranges'},
                  text='Nombre')
-    fig.add_hline(y=avg_line, line_dash="dash", line_color="#888", line_width=1.5,
+    fig.add_hline(y=avg_line, line_dash="dash", line_color="rgba(255,255,255,0.35)", line_width=1.5,
                   annotation_text=f"Moyenne : {avg_line:.0f} oranges/couleur",
                   annotation_position="top right", annotation_font_size=10)
     fig.update_traces(textposition='outside', textfont_size=12)
     fig.update_layout(
-        paper_bgcolor=BG, plot_bgcolor="white", showlegend=False,
+        paper_bgcolor=BG, plot_bgcolor=PLT_BG, showlegend=False,
         font_family="DM Sans", height=400,
         xaxis_title="Couleur de l'orange",
         yaxis_title="Nombre d'oranges dans le lot",
@@ -329,7 +419,7 @@ elif "catégorielles" in page:
         annotations=[dict(
             x=0.5, y=-0.2, xref="paper", yref="paper",
             text="📌 Lecture : chaque barre = une couleur · Hauteur = nombre d'oranges de cette couleur dans le dataset",
-            showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="center"
+            showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
         )]
     )
     st.plotly_chart(fig, use_container_width=True)
@@ -344,12 +434,12 @@ elif "catégorielles" in page:
                  title="Nombre d'oranges par variété — Répartition de la variable Variety",
                  labels={'Variety': 'Variété botanique', 'Nombre': 'Nombre d\'oranges'},
                  text='Nombre')
-    fig.add_vline(x=avg_var, line_dash="dash", line_color="#888", line_width=1.5,
+    fig.add_vline(x=avg_var, line_dash="dash", line_color="rgba(255,255,255,0.35)", line_width=1.5,
                   annotation_text=f"Moy. : {avg_var:.0f}", annotation_position="top right",
                   annotation_font_size=10)
     fig.update_traces(textposition='outside', textfont_size=11)
     fig.update_layout(
-        paper_bgcolor=BG, plot_bgcolor="white", font_family="DM Sans",
+        paper_bgcolor=BG, plot_bgcolor=PLT_BG, font_family="DM Sans",
         yaxis={'categoryorder':'total ascending'},
         height=560, coloraxis_showscale=False,
         xaxis_title="Nombre d'oranges",
@@ -358,12 +448,12 @@ elif "catégorielles" in page:
         annotations=[dict(
             x=1.0, y=-0.08, xref="paper", yref="paper",
             text="📌 Lecture : chaque barre = une variété · Plus la barre est longue, plus la variété est représentée · Ligne pointillée = moyenne",
-            showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="right"
+            showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="right"
         )]
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    # Graphique 3 : Distribution des Défauts (pie + bar)
+    #  Graphique 3 : Distribution des Défauts (pie + bar)
     st.markdown('<div class="sec-s">Graphique 3 — Présence et types de défauts visuels (variable Blemishes)</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     blem_counts = fdf['Blemishes(Y/N)'].value_counts().reset_index()
@@ -388,7 +478,7 @@ elif "catégorielles" in page:
             legend=dict(orientation="h", y=-0.15),
             annotations=[dict(
                 x=0.5, y=0.5, text=f"{int(pct_sd)}%<br>sains",
-                showarrow=False, font=dict(size=14, color="#2E7D4F", family="Playfair Display")
+                showarrow=False, font=dict(size=14, color="#5BE89A", family="Playfair Display")
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -401,7 +491,7 @@ elif "catégorielles" in page:
                      text='Nombre')
         fig.update_traces(textposition='outside', textfont_size=11)
         fig.update_layout(
-            paper_bgcolor=BG, plot_bgcolor="white", font_family="DM Sans",
+            paper_bgcolor=BG, plot_bgcolor=PLT_BG, font_family="DM Sans",
             yaxis={'categoryorder':'total ascending'}, height=380,
             coloraxis_showscale=False,
             xaxis_title="Nombre d'oranges avec ce défaut",
@@ -410,12 +500,12 @@ elif "catégorielles" in page:
             annotations=[dict(
                 x=1.0, y=-0.12, xref="paper", yref="paper",
                 text="📌 N = aucun défaut · Codes = types de défauts spécifiques (soleil, cicatrice, moisissure…)",
-                showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="right"
+                showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="right"
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
 
-    # Interprétation du notebook
+    # ── Interprétation du notebook
     st.markdown("""<div class="ins gn"><span class="ins-ic">🌈</span><div>
       <p class="ins-t">Interprétation — Variables Catégorielles</p>
       <p class="ins-tx">Les oranges de cet échantillon présentent un profil globalement très sain. Côté couleur, les teintes foncées (Deep Orange, Light Orange, Orange-Red) dominent largement, signe d'une bonne maturité générale, tandis que le Yellow-Orange — caractéristique des fruits jeunes — reste anecdotique.<br><br>
@@ -423,7 +513,9 @@ elif "catégorielles" in page:
       Enfin, les défauts sont l'exception plutôt que la règle : 149 fruits (61,8%) sont parfaitement sains, et quand un défaut apparaît, il est le plus souvent superficiel — coup de soleil, cicatrice — sans impact réel sur la qualité du fruit.</p>
     </div></div>""", unsafe_allow_html=True)
 
-# 5. CORRÉLATIONS
+
+#  CORRÉLATIONS
+
 elif "Corrélations" in page:
     st.markdown('<div class="sec">🔗 Matrice de Corrélation</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Section 6.1 du notebook — Variables numériques ↔ numériques</div>', unsafe_allow_html=True)
@@ -465,7 +557,7 @@ elif "Corrélations" in page:
     c1, c2 = st.columns([2, 3])
     with c1:
         st.markdown("**Corrélations avec la Qualité (triées)**")
-        st.markdown('<p style="font-size:.78rem;color:#9E7A5A">🟢 vert = corrélation positive (hausse ensemble) · 🔴 rouge = corrélation négative (l\'un monte, l\'autre baisse)</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size:.78rem;color:#FFB866">🟢 vert = corrélation positive (hausse ensemble) · 🔴 rouge = corrélation négative (l\'un monte, l\'autre baisse)</p>', unsafe_allow_html=True)
         for var, r in corr_quality.items():
             bc = "#2E7D4F" if r > 0 else "#C0392B"
             cls = "p" if r > 0 else "n"
@@ -485,10 +577,10 @@ elif "Corrélations" in page:
             text=cq_df['r'].round(2), textposition='outside',
             hovertemplate="<b>%{y}</b><br>Corrélation avec Qualité : r = %{x:.2f}<extra></extra>"
         ))
-        fig.add_vline(x=0, line_color="#888", line_width=1)
+        fig.add_vline(x=0, line_color="rgba(255,255,255,0.4)", line_width=1.5)
         fig.update_layout(title="Corrélation de chaque variable avec la Qualité",
                           xaxis_title="Coefficient r", paper_bgcolor=BG,
-                          plot_bgcolor="white", font_family="DM Sans",
+                          plot_bgcolor=PLT_BG, font_family="DM Sans",
                           height=320, yaxis={'categoryorder':'array','categoryarray':cq_df['label'].tolist()})
         st.plotly_chart(fig, use_container_width=True)
 
@@ -510,14 +602,14 @@ elif "Corrélations" in page:
     r_val = fdf[[xv, yv]].corr().iloc[0,1]
     direction = "positive" if r_val > 0 else "négative"
     force = "forte" if abs(r_val) > 0.5 else ("modérée" if abs(r_val) > 0.25 else "faible")
-    st.markdown(f'<p style="font-size:.82rem;color:#5C3010;margin-bottom:8px">📐 Corrélation entre ces deux variables : <strong>r = {r_val:+.2f}</strong> — relation {direction} {force}</p>', unsafe_allow_html=True)
+    st.markdown(f'<p style="font-size:.82rem;color:#FFB866;margin-bottom:8px">📐 Corrélation entre ces deux variables : <strong>r = {r_val:+.2f}</strong> — relation {direction} {force}</p>', unsafe_allow_html=True)
     fig = px.scatter(fdf, x=xv, y=yv, color="Color", color_discrete_sequence=OSEQ,
                      trendline="ols",
                      hover_data=["Variety","Quality(1-5)"],
                      title=f"Relation entre {NLBL[xv]} et {NLBL[yv]}<br><sup>Chaque point = une orange · Couleur = couleur de l'orange · Droite = tendance linéaire (OLS)</sup>",
                      labels={xv: NLBL[xv], yv: NLBL[yv], "Color": "Couleur"})
     fig.update_layout(
-        paper_bgcolor=BG, plot_bgcolor="white", font_family="DM Sans",
+        paper_bgcolor=BG, plot_bgcolor=PLT_BG, font_family="DM Sans",
         xaxis_title=f"{NLBL[xv]}",
         yaxis_title=f"{NLBL[yv]}",
         legend_title="Couleur de l'orange",
@@ -525,12 +617,14 @@ elif "Corrélations" in page:
         annotations=[dict(
             x=0.5, y=-0.18, xref="paper", yref="paper",
             text=f"💡 Survolez un point pour voir les détails de l'orange · La droite de tendance montre la direction générale du lien",
-            showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="center"
+            showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
         )]
     )
     st.plotly_chart(fig, use_container_width=True)
 
+
 # TEST KHI-2
+
 elif "Khi-2" in page:
     st.markdown('<div class="sec">🔴 Test du Khi-2 — Variables Catégorielles</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Section 6.2 du notebook — Relation entre variables catégorielles</div>', unsafe_allow_html=True)
@@ -606,7 +700,7 @@ elif "Khi-2" in page:
         title="Valeurs Chi² pour chaque paire de variables catégorielles<br><sup>🟢 vert = relation significative (p&lt;0.05) · 🟠 orange = zone grise · 🔴 rouge = pas de relation · Plus Chi² est grand, plus le lien est fort</sup>",
         yaxis_title='Valeur Chi² (plus grand = lien plus fort)',
         xaxis_title='Paire de variables testées',
-        paper_bgcolor=BG, plot_bgcolor='white',
+        paper_bgcolor=BG, plot_bgcolor=PLT_BG,
         font_family='DM Sans', height=400, showlegend=False,
         title_font_size=13
     )
@@ -616,6 +710,7 @@ elif "Khi-2" in page:
       <p class="ins-t">Interprétation globale du Khi-2</p>
       <p class="ins-tx">Le test du Khi-2 révèle que la couleur et la variété sont fortement liées entre elles (Chi²=233,8, p≈0), ce qui est biologiquement logique. En revanche, ni la couleur ni la variété ne permettent de prédire la présence de défauts avec certitude. La conclusion clé : les défauts visuels sont indépendants du profil variétal, ce qui confirme leur caractère accidentel et superficiel.</p>
     </div></div>""", unsafe_allow_html=True)
+
 
 # ANOVA / T-TEST
 
@@ -694,16 +789,16 @@ elif "ANOVA" in page:
     fig.add_hline(y=seuil, line_dash='dash', line_color='red', line_width=2,
                   annotation_text='Seuil de significativité p = 0.05 → Toute barre AU-DESSUS = relation confirmée',
                   annotation_position='top right',
-                  annotation_font_color='red', annotation_font_size=10)
+                  annotation_font_color=PLT_WARN, annotation_font_size=10)
     fig.update_layout(
         barmode='group',
         title="ANOVA / T-test — Significativité de chaque variable numérique selon la variable catégorielle<br><sup>Axe Y = −log10(p-value) · Au-dessus de la ligne rouge = relation statistiquement significative (p &lt; 0.05)</sup>",
         yaxis_title='−log10(p-value)  ·  Plus haut = plus significatif',
         xaxis_title='Variable numérique analysée',
-        paper_bgcolor=BG, plot_bgcolor='white',
+        paper_bgcolor=BG, plot_bgcolor=PLT_BG,
         font_family='DM Sans', height=480, title_font_size=13,
         legend=dict(orientation='h', y=1.1, title="Variable catégorielle testée",
-                    bgcolor="rgba(255,255,255,0.8)", bordercolor="#FFB866", borderwidth=1)
+                    bgcolor="rgba(30,30,30,0.85)", bordercolor="#FFB866", borderwidth=1)
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -717,13 +812,15 @@ elif "ANOVA" in page:
       </p>
     </div></div>""", unsafe_allow_html=True)
 
+
 # ANALYSE QUALITÉ
+
 elif "Qualité" in page:
     st.markdown('<div class="sec">⭐ Analyse Approfondie de la Qualité</div>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">La Qualité (1-5) est la variable cible de l\'analyse — voici comment elle se distribue et ce qui l\'influence</p>', unsafe_allow_html=True)
 
-    # ── Graphique 1 : Distribution + Qualité par couleur
-    st.markdown('<p style="font-size:.82rem;font-weight:600;color:#1A0A00;margin:12px 0 4px">Graphique 1 — Distribution de la Qualité &nbsp;|&nbsp; Graphique 2 — Qualité moyenne selon la couleur</p>', unsafe_allow_html=True)
+    # Graphique 1 : Distribution + Qualité par couleur
+    st.markdown('<p style="font-size:.82rem;font-weight:600;color:#FFE0C0;margin:12px 0 4px">Graphique 1 — Distribution de la Qualité &nbsp;|&nbsp; Graphique 2 — Qualité moyenne selon la couleur</p>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">À gauche : comment les notes se répartissent sur l\'ensemble du lot · À droite : est-ce que la couleur de l\'orange influence sa note ?</p>', unsafe_allow_html=True)
     c1,c2 = st.columns(2)
     with c1:
@@ -735,19 +832,19 @@ elif "Qualité" in page:
                            marginal="box")
         fig.add_vline(x=d_q.mean(), line_dash="dash", line_color="red", line_width=2,
                       annotation_text=f"Moyenne = {d_q.mean():.2f}",
-                      annotation_position="top right", annotation_font_color="red", annotation_font_size=11)
-        fig.add_vline(x=d_q.median(), line_dash="dot", line_color="#1A5F8A", line_width=2,
+                      annotation_position="top right", annotation_font_color=PLT_WARN, annotation_font_size=11)
+        fig.add_vline(x=d_q.median(), line_dash="dot", line_color="#60AAFF", line_width=2,
                       annotation_text=f"Médiane = {d_q.median():.1f}",
-                      annotation_position="top left", annotation_font_color="#1A5F8A", annotation_font_size=11)
+                      annotation_position="top left", annotation_font_color="#60AAFF", annotation_font_size=11)
         fig.update_layout(
-            paper_bgcolor=BG, plot_bgcolor="white", font_family="DM Sans",
+            paper_bgcolor=BG, plot_bgcolor=PLT_BG, font_family="DM Sans",
             xaxis_title="Note de Qualité (1 = mauvaise · 5 = excellente)",
             yaxis_title="Nombre d'oranges",
             title_font_size=12,
             annotations=[dict(
                 x=0.5, y=-0.25, xref="paper", yref="paper",
                 text="📊 Une distribution penchée vers la droite (vers 4-5) indique un lot de bonne qualité",
-                showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="center"
+                showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -760,12 +857,12 @@ elif "Qualité" in page:
                      title="Qualité moyenne selon la couleur de l'orange<br><sup>Chaque barre = qualité moyenne des oranges de cette couleur · Score sur 5</sup>",
                      labels={'Color': 'Couleur', 'Quality(1-5)': 'Qualité moyenne (/ 5)'},
                      text=qc['Qualite'])
-        fig.add_hline(y=fdf['Quality(1-5)'].mean(), line_dash="dash", line_color="#888", line_width=1.5,
+        fig.add_hline(y=fdf['Quality(1-5)'].mean(), line_dash="dash", line_color="rgba(255,255,255,0.35)", line_width=1.5,
                       annotation_text=f"Moy. globale : {fdf['Quality(1-5)'].mean():.2f}",
                       annotation_position="top right", annotation_font_size=10)
         fig.update_traces(textposition='outside', textfont_size=12)
         fig.update_layout(
-            paper_bgcolor=BG, plot_bgcolor="white", showlegend=False, font_family="DM Sans",
+            paper_bgcolor=BG, plot_bgcolor=PLT_BG, showlegend=False, font_family="DM Sans",
             xaxis_title="Couleur de l'orange",
             yaxis_title="Qualité moyenne (échelle 1–5)",
             yaxis_range=[0, 5.5],
@@ -773,13 +870,13 @@ elif "Qualité" in page:
             annotations=[dict(
                 x=0.5, y=-0.22, xref="paper", yref="paper",
                 text="📌 Ligne pointillée = qualité moyenne générale du lot · Les valeurs annotées au-dessus de chaque barre sont les scores moyens",
-                showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="center"
+                showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
 
     # Graphique 3 : Qualité par variété
-    st.markdown('<p style="font-size:.82rem;font-weight:600;color:#1A0A00;margin:20px 0 4px">Graphique 3 — Qualité moyenne par variété d\'orange</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:.82rem;font-weight:600;color:#FFE0C0;margin:20px 0 4px">Graphique 3 — Qualité moyenne par variété d\'orange</p>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">Chaque barre représente la note de qualité moyenne des oranges de cette variété · Permet d\'identifier les variétés les plus qualitatives</p>', unsafe_allow_html=True)
     qv = fdf.groupby('Variety')['Quality(1-5)'].mean().reset_index().sort_values('Quality(1-5)', ascending=False)
     fig = px.bar(qv, x='Variety', y='Quality(1-5)',
@@ -790,10 +887,10 @@ elif "Qualité" in page:
                  text=qv['Quality(1-5)'].round(2))
     fig.add_hline(y=fdf['Quality(1-5)'].mean(), line_dash="dash", line_color="red", line_width=1.5,
                   annotation_text=f"Moy. : {fdf['Quality(1-5)'].mean():.2f}",
-                  annotation_position="top right", annotation_font_color="red", annotation_font_size=11)
+                  annotation_position="top right", annotation_font_color=PLT_WARN, annotation_font_size=11)
     fig.update_traces(textposition='outside', textfont_size=10)
     fig.update_layout(
-        paper_bgcolor=BG, plot_bgcolor="white", xaxis_tickangle=-40, height=450,
+        paper_bgcolor=BG, plot_bgcolor=PLT_BG, xaxis_tickangle=-40, height=450,
         font_family="DM Sans", title_font_size=12,
         xaxis_title="Variété d'orange",
         yaxis_title="Note de qualité moyenne (1–5)",
@@ -802,13 +899,13 @@ elif "Qualité" in page:
         annotations=[dict(
             x=0.5, y=-0.28, xref="paper", yref="paper",
             text="📌 Ligne rouge = qualité moyenne globale (3.82/5) · Les variétés au-dessus de cette ligne sont supérieures à la moyenne",
-            showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="center"
+            showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
         )]
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    # ── Graphiques 4 & 5 : Défauts vs qualité
-    st.markdown('<p style="font-size:.82rem;font-weight:600;color:#1A0A00;margin:20px 0 4px">Graphique 4 — Qualité selon la présence de défauts &nbsp;|&nbsp; Graphique 5 — Qualité par type de défaut</p>', unsafe_allow_html=True)
+    #  Graphiques 4 & 5 : Défauts vs qualité
+    st.markdown('<p style="font-size:.82rem;font-weight:600;color:#FFE0C0;margin:20px 0 4px">Graphique 4 — Qualité selon la présence de défauts &nbsp;|&nbsp; Graphique 5 — Qualité par type de défaut</p>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">Question clé : est-ce qu\'une orange avec des défauts visuels a forcément une moins bonne qualité ? (réponse : NON, p = 0.117)</p>', unsafe_allow_html=True)
     c3,c4 = st.columns(2)
     with c3:
@@ -818,14 +915,14 @@ elif "Qualité" in page:
                      title="Qualité selon la présence ou l'absence de défauts<br><sup>Boîte = Q1/médiane/Q3 · Moustaches = min/max · Points = valeurs extrêmes</sup>",
                      labels={'x': 'Statut des défauts', 'Quality(1-5)': 'Qualité (1–5)'})
         fig.update_layout(
-            paper_bgcolor=BG, plot_bgcolor="white", showlegend=False, font_family="DM Sans",
+            paper_bgcolor=BG, plot_bgcolor=PLT_BG, showlegend=False, font_family="DM Sans",
             xaxis_title="Présence de défauts visuels",
             yaxis_title="Note de Qualité (1–5)",
             title_font_size=12,
             annotations=[dict(
                 x=0.5, y=-0.22, xref="paper", yref="paper",
                 text="⚠️ T-test : p = 0.117 — la différence n'est PAS statistiquement significative",
-                showarrow=False, font=dict(size=10, color="#C0392B"), xanchor="center"
+                showarrow=False, font=dict(size=10, color=PLT_WARN), xanchor="center"
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -840,7 +937,7 @@ elif "Qualité" in page:
                      text=bq['Quality(1-5)'].round(2))
         fig.update_traces(textposition='outside', textfont_size=11)
         fig.update_layout(
-            paper_bgcolor=BG, plot_bgcolor="white", font_family="DM Sans",
+            paper_bgcolor=BG, plot_bgcolor=PLT_BG, font_family="DM Sans",
             coloraxis_showscale=False,
             xaxis_title="Note de qualité moyenne (1–5)",
             yaxis_title="Code du type de défaut (N = sans défaut)",
@@ -849,7 +946,7 @@ elif "Qualité" in page:
             annotations=[dict(
                 x=1.0, y=-0.18, xref="paper", yref="paper",
                 text="📌 Les scores proches entre N et les autres codes confirment l'absence d'impact des défauts sur la qualité",
-                showarrow=False, font=dict(size=10, color="#9E7A5A"), xanchor="right"
+                showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="right"
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -859,7 +956,9 @@ elif "Qualité" in page:
       <p class="ins-tx">Le T-test confirme ce que le graphique montre : la relation entre défauts visuels et qualité n'est pas statistiquement significative (p = 0.117). Quand un défaut apparaît, il est le plus souvent superficiel — un coup de soleil, une cicatrice — sans impact réel sur la qualité intrinsèque du fruit. Un fruit avec des défauts peut tout à fait avoir une bonne note de qualité.</p>
     </div></div>""", unsafe_allow_html=True)
 
+
 # CONCLUSION & KPIs
+
 elif "Conclusion" in page:
     st.markdown("""<div class="hero">
       <p class="hero-eye">Résultats finaux · EDA Orange Dataset</p>

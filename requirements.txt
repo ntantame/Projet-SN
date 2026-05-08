@@ -4,6 +4,5 @@ seaborn
 streamlit
 numpy
 scipy
-scikit-learn
 Pillow
 plotly

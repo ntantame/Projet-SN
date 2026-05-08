@@ -10,12 +10,12 @@ import itertools
 st.set_page_config(page_title="Orange Analytics", page_icon="🍊",
                    layout="wide", initial_sidebar_state="expanded")
 
-# DESIGN 
+# ── DESIGN ───────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/*  Variables light mode*/
+/* ── Variables light mode ─────────────────────── */
 :root {
   --o1:#FF6B00; --o2:#FF9A3C; --o3:#FFB866; --o4:#FFF3E0;
   --dark:#1A0A00; --mid:#5C3010; --muted:#7A5A3A;
@@ -47,7 +47,7 @@ st.markdown("""
   --plt-ann-note: #FFB866;
 }
 
-/* Dark mode overrides */
+/* ── Dark mode overrides ──────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root {
     --dark:#FFE0C0; --mid:#FFB866; --muted:#CC8844;
@@ -147,7 +147,7 @@ html,body,[class*="css"]{ font-family:'DM Sans',sans-serif; }
 </style>
 """, unsafe_allow_html=True)
 
-# DATA 
+# ── DATA ──────────────────────────────────────────────────────────────────────
 @st.cache_data
 def load():
     df = pd.read_csv("orange.csv")
@@ -194,7 +194,7 @@ def plt_base(height=None, title_size=13):
     if height: d['height'] = height
     return d
 
-# SIDEBAR 
+# ── SIDEBAR ───────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown('<div class="sbl">🍊 Orange Analytics</div>', unsafe_allow_html=True)
     page = st.radio("", [
@@ -225,9 +225,9 @@ pct_hq       = (fdf['Quality(1-5)']>=4).mean()*100
 pct_lq       = (fdf['Quality(1-5)']<=2).mean()*100
 pct_sd       = fdf['sans_defaut'].mean()*100
 
-
-# VUE D'ENSEMBLE
-
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. VUE D'ENSEMBLE
+# ─────────────────────────────────────────────────────────────────────────────
 if "Vue d'ensemble" in page:
     st.markdown("""<div class="hero">
       <p class="hero-eye">TP Data Science · Analyse Exploratoire</p>
@@ -251,9 +251,9 @@ if "Vue d'ensemble" in page:
     st.markdown('<div class="sec">Aperçu des données</div>', unsafe_allow_html=True)
     st.dataframe(fdf.drop(columns=['sans_defaut']).head(10), use_container_width=True, height=320)
 
-
-# STATISTIQUES DESCRIPTIVES
- ─────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+# 2. STATISTIQUES DESCRIPTIVES
+# ─────────────────────────────────────────────────────────────────────────────
 elif "Statistiques" in page:
     st.markdown('<div class="sec">📊 Statistiques Descriptives</div>', unsafe_allow_html=True)
 
@@ -288,9 +288,9 @@ elif "Statistiques" in page:
     )
     st.plotly_chart(fig, use_container_width=True)
 
-
-# DISTRIBUTIONS NUMÉRIQUES
-
+# ─────────────────────────────────────────────────────────────────────────────
+# 3. DISTRIBUTIONS NUMÉRIQUES
+# ─────────────────────────────────────────────────────────────────────────────
 elif "Distributions" in page:
     st.markdown('<div class="sec">📉 Distribution des Variables Numériques</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Analyse univariée — Section 4 du notebook</div>', unsafe_allow_html=True)
@@ -386,11 +386,9 @@ elif "Distributions" in page:
         )
         st.plotly_chart(fig, use_container_width=True)
 
-
-# VARIABLES CATÉGORIELLES
- ───────────────────────────────────────────────────────────────────────────
-
-
+# ─────────────────────────────────────────────────────────────────────────────
+# 4. VARIABLES CATÉGORIELLES
+# ─────────────────────────────────────────────────────────────────────────────
 elif "catégorielles" in page:
     st.markdown('<div class="sec">🏷️ Analyse des Variables Catégorielles</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Analyse univariée — Section 5 du notebook</div>', unsafe_allow_html=True)
@@ -424,7 +422,7 @@ elif "catégorielles" in page:
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    # Graphique 2 : Distribution des Variétés (horizontal bar)
+    # ── Graphique 2 : Distribution des Variétés (horizontal bar)
     st.markdown('<div class="sec-s">Graphique 2 — Répartition des oranges selon leur variété botanique</div>', unsafe_allow_html=True)
     var_counts = fdf['Variety'].value_counts().reset_index()
     var_counts.columns = ['Variety','Nombre']
@@ -453,7 +451,7 @@ elif "catégorielles" in page:
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    #  Graphique 3 : Distribution des Défauts (pie + bar)
+    # ── Graphique 3 : Distribution des Défauts (pie + bar)
     st.markdown('<div class="sec-s">Graphique 3 — Présence et types de défauts visuels (variable Blemishes)</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     blem_counts = fdf['Blemishes(Y/N)'].value_counts().reset_index()
@@ -513,9 +511,9 @@ elif "catégorielles" in page:
       Enfin, les défauts sont l'exception plutôt que la règle : 149 fruits (61,8%) sont parfaitement sains, et quand un défaut apparaît, il est le plus souvent superficiel — coup de soleil, cicatrice — sans impact réel sur la qualité du fruit.</p>
     </div></div>""", unsafe_allow_html=True)
 
-
-#  CORRÉLATIONS
-
+# ─────────────────────────────────────────────────────────────────────────────
+# 5. CORRÉLATIONS
+# ─────────────────────────────────────────────────────────────────────────────
 elif "Corrélations" in page:
     st.markdown('<div class="sec">🔗 Matrice de Corrélation</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Section 6.1 du notebook — Variables numériques ↔ numériques</div>', unsafe_allow_html=True)
@@ -622,9 +620,9 @@ elif "Corrélations" in page:
     )
     st.plotly_chart(fig, use_container_width=True)
 
-
-# TEST KHI-2
-
+# ─────────────────────────────────────────────────────────────────────────────
+# 6. TEST KHI-2
+# ─────────────────────────────────────────────────────────────────────────────
 elif "Khi-2" in page:
     st.markdown('<div class="sec">🔴 Test du Khi-2 — Variables Catégorielles</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Section 6.2 du notebook — Relation entre variables catégorielles</div>', unsafe_allow_html=True)
@@ -711,9 +709,9 @@ elif "Khi-2" in page:
       <p class="ins-tx">Le test du Khi-2 révèle que la couleur et la variété sont fortement liées entre elles (Chi²=233,8, p≈0), ce qui est biologiquement logique. En revanche, ni la couleur ni la variété ne permettent de prédire la présence de défauts avec certitude. La conclusion clé : les défauts visuels sont indépendants du profil variétal, ce qui confirme leur caractère accidentel et superficiel.</p>
     </div></div>""", unsafe_allow_html=True)
 
-
-# ANOVA / T-TEST
-
+# ─────────────────────────────────────────────────────────────────────────────
+# 7. ANOVA / T-TEST
+# ─────────────────────────────────────────────────────────────────────────────
 elif "ANOVA" in page:
     st.markdown('<div class="sec">📐 ANOVA / T-test — Numériques × Catégorielles</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Section 6.3 du notebook — Relation entre variables numériques et catégorielles</div>', unsafe_allow_html=True)
@@ -812,14 +810,14 @@ elif "ANOVA" in page:
       </p>
     </div></div>""", unsafe_allow_html=True)
 
-
-# ANALYSE QUALITÉ
-
+# ─────────────────────────────────────────────────────────────────────────────
+# 8. ANALYSE QUALITÉ
+# ─────────────────────────────────────────────────────────────────────────────
 elif "Qualité" in page:
     st.markdown('<div class="sec">⭐ Analyse Approfondie de la Qualité</div>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">La Qualité (1-5) est la variable cible de l\'analyse — voici comment elle se distribue et ce qui l\'influence</p>', unsafe_allow_html=True)
 
-    # Graphique 1 : Distribution + Qualité par couleur
+    # ── Graphique 1 : Distribution + Qualité par couleur
     st.markdown('<p style="font-size:.82rem;font-weight:600;color:#FFE0C0;margin:12px 0 4px">Graphique 1 — Distribution de la Qualité &nbsp;|&nbsp; Graphique 2 — Qualité moyenne selon la couleur</p>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">À gauche : comment les notes se répartissent sur l\'ensemble du lot · À droite : est-ce que la couleur de l\'orange influence sa note ?</p>', unsafe_allow_html=True)
     c1,c2 = st.columns(2)
@@ -875,7 +873,7 @@ elif "Qualité" in page:
         )
         st.plotly_chart(fig, use_container_width=True)
 
-    # Graphique 3 : Qualité par variété
+    # ── Graphique 3 : Qualité par variété
     st.markdown('<p style="font-size:.82rem;font-weight:600;color:#FFE0C0;margin:20px 0 4px">Graphique 3 — Qualité moyenne par variété d\'orange</p>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">Chaque barre représente la note de qualité moyenne des oranges de cette variété · Permet d\'identifier les variétés les plus qualitatives</p>', unsafe_allow_html=True)
     qv = fdf.groupby('Variety')['Quality(1-5)'].mean().reset_index().sort_values('Quality(1-5)', ascending=False)
@@ -904,7 +902,7 @@ elif "Qualité" in page:
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    #  Graphiques 4 & 5 : Défauts vs qualité
+    # ── Graphiques 4 & 5 : Défauts vs qualité
     st.markdown('<p style="font-size:.82rem;font-weight:600;color:#FFE0C0;margin:20px 0 4px">Graphique 4 — Qualité selon la présence de défauts &nbsp;|&nbsp; Graphique 5 — Qualité par type de défaut</p>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">Question clé : est-ce qu\'une orange avec des défauts visuels a forcément une moins bonne qualité ? (réponse : NON, p = 0.117)</p>', unsafe_allow_html=True)
     c3,c4 = st.columns(2)
@@ -956,9 +954,9 @@ elif "Qualité" in page:
       <p class="ins-tx">Le T-test confirme ce que le graphique montre : la relation entre défauts visuels et qualité n'est pas statistiquement significative (p = 0.117). Quand un défaut apparaît, il est le plus souvent superficiel — un coup de soleil, une cicatrice — sans impact réel sur la qualité intrinsèque du fruit. Un fruit avec des défauts peut tout à fait avoir une bonne note de qualité.</p>
     </div></div>""", unsafe_allow_html=True)
 
-
-# CONCLUSION & KPIs
-
+# ─────────────────────────────────────────────────────────────────────────────
+# 9. CONCLUSION & KPIs
+# ─────────────────────────────────────────────────────────────────────────────
 elif "Conclusion" in page:
     st.markdown("""<div class="hero">
       <p class="hero-eye">Résultats finaux · EDA Orange Dataset</p>

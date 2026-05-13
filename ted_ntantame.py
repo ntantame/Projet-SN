@@ -225,7 +225,7 @@ with st.sidebar:
     sel_variety = st.multiselect("Variété", sorted(dataOrange['Variety'].unique()), default=sorted(dataOrange['Variety'].unique()))
     q_min,q_max = st.slider("Qualité",1.0,5.0,(1.0,5.0),0.5)
     st.markdown("---")
-    st.caption("TP Data Science · EDA Orange Dataset")
+    st.caption("TP Data Science - EDA Orange Dataset")
 
 fdf = dataOrange[dataOrange['Color'].isin(sel_color) & dataOrange['Variety'].isin(sel_variety) & dataOrange['Quality(1-5)'].between(q_min,q_max)].copy()
 
@@ -241,7 +241,7 @@ pct_sd       = fdf['sans_defaut'].mean()*100
 
 if "Accueil" in page:
     st.markdown("""<div class="hero">
-      <p class="hero-eye">TP Data Science · Analyse Exploratoire</p>
+      <p class="hero-eye">TP Data Science - Analyse Exploratoire</p>
       <h1>Orange Analytics</h1>
       <p class="hero-sub">Analyse des caractéristiques physico-chimiques des oranges pour identifier les facteurs déterminant leur qualité: 241 fruits et 11 variables.<br> EDA complet</p>
     </div>""", unsafe_allow_html=True)

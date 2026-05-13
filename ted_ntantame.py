@@ -201,7 +201,7 @@ with st.sidebar:
         "🏠  Accueil",
         "📊  Chiffres clés du lot",
         "📉  Répartition des oranges",
-        "🏷️  Couleurs, Variétés & Défauts",
+        "🏷️  Couleurs, Variétés et Défauts",
         "🔗  Facteurs influençant la qualité",
         "🔴  Liens entre les catégories",
         "📐  Variation selon les caractéristiques",
@@ -263,7 +263,7 @@ elif "Chiffres" in page:
 
     st.markdown("""<div class="ins bl"><span class="ins-ic">📋</span><div>
       <p class="ins-t">Interprétation — Statistiques descriptives</p>
-      <p class="ins-tx">Sur les 241 oranges analysées, les résultats sont globalement encourageants. La qualité se révèle assez homogène, avec une note moyenne de 3,8 sur 5 ; la plupart des fruits dépassent d'ailleurs la barre des 4. Côté profil gustatif, on est sur des oranges bien sucrées, avec un indice Brix autour de 10,9, et une acidité tout à fait classique pour la variété (pH de 3,47 en moyenne).<br><br>Les gabarits varient pas mal d'un fruit à l'autre — entre 100 g et 300 g — ce qui traduit une certaine diversité physique dans l'échantillon. Enfin, la maturité est au rendez-vous : les fruits sont bien mûrs en moyenne (3,6/5), récoltés environ 15 jours après le pic de maturité.</p>
+      <p class="ins-tx">Sur les 241 oranges analysées, les résultats sont globalement encourageants. La qualité se révèle assez homogène, avec une note moyenne de 3,8 sur 5, la plupart des fruits dépassent d'ailleurs la barre des 4. Côté profil gustatif, on est sur des oranges bien sucrées, avec un indice Brix autour de 10,9, et une acidité tout à fait classique pour la variété (pH de 3,47 en moyenne).<br><br>Les gabarits varient pas mal d'un fruit à l'autre entre 100 g et 300 g ,ce qui traduit une certaine diversité physique dans l'échantillon. Enfin, la maturité est au rendez-vous : les fruits sont bien mûrs en moyenne (3,6/5), récoltés environ 15 jours après le pic de maturité.</p>
     </div></div>""", unsafe_allow_html=True)
 
     st.markdown('<div class="sec">Boxplots par couleur</div>', unsafe_allow_html=True)
@@ -326,15 +326,15 @@ elif "Répartition" in page:
 
     # Interprétation complète du notebook
     st.markdown("""<div class="ins bl"><span class="ins-ic">🔍</span><div>
-      <p class="ins-t">Interprétation — Distribution des Variables Numériques</p>
+      <p class="ins-t">Interprétation : Distribution des Variables Numériques</p>
       <p class="ins-tx">
-        <strong>Qualité (Quality 1-5)</strong> — La qualité est clairement orientée vers le haut : la grande majorité des oranges obtiennent une note de 4 ou 5, avec une moyenne de 3,82. Les fruits de mauvaise qualité (note 1 ou 2) sont vraiment l'exception. C'est le signe d'un lot globalement sain et bien sélectionné.<br><br>
-        <strong>Maturité (Ripeness 1-5)</strong> — La maturité suit la même tendance : les notes 4 et 5 dominent largement, même si on note une présence non négligeable de fruits à 1 et 2. Cela suggère que la récolte mélange des fruits bien mûrs et quelques fruits cueillis trop tôt ou trop tard.<br><br>
-        <strong>Douceur (Brix/Sweetness)</strong> — C'est l'observation la plus intéressante du graphique : la distribution présente <strong>deux bosses distinctes</strong>, l'une autour de 8 et l'autre autour de 14. Cela ne ressemble pas à un hasard — on a probablement deux groupes de fruits différents, que ce soit deux variétés d'oranges, deux origines géographiques, ou deux stades de maturité bien distincts. C'est une piste qui mérite d'être creusée.<br><br>
-        <strong>Acidité (pH)</strong> — Le pH est très concentré entre 3,2 et 3,6, avec une moyenne de 3,47. Les oranges sont remarquablement homogènes en termes d'acidité. Tout fruit qui sort de cette fourchette mérite attention : anomalie de mesure, variété atypique, ou fruit en mauvais état.<br><br>
-        <strong>Texture (Softness 1-5)</strong> — Distribution très particulière : les valeurs se concentrent presque exclusivement sur 1, 3 et 5, avec très peu de valeurs intermédiaires. Cela suggère que la texture a été évaluée de façon subjective et catégorielle plutôt que mesurée précisément. Les évaluateurs ont tranché : une orange est soit ferme, soit moyenne, soit molle.<br><br>
-        <strong>Taille et Poids</strong> — Les deux distributions sont relativement étalées (6 à 10 cm · 100 à 300 g). Rien d'anormal — c'est simplement le reflet de la variabilité naturelle des fruits.<br><br>
-        <strong>Temps de récolte (HarvestTime)</strong> — La distribution n'est pas uniforme. On observe un pic notable autour de 12-13 jours, puis les valeurs se répartissent plus librement jusqu'à 25 jours. L'échantillon couvre différents stades post-récolte, avec une légère surreprésentation des fruits récoltés à mi-parcours.<br><br>
+        <strong>Qualité (Quality 1-5)</strong> : La qualité est clairement orientée vers le haut : la grande majorité des oranges obtiennent une note de 4 ou 5, avec une moyenne de 3,82. Les fruits de mauvaise qualité (note 1 ou 2) sont vraiment l'exception. C'est le signe d'un lot globalement sain et bien sélectionné.<br><br>
+        <strong>Maturité (Ripeness 1-5)</strong> : La maturité suit la même tendance : les notes 4 et 5 dominent largement, même si on note une présence non négligeable de fruits à 1 et 2. Cela suggère que la récolte mélange des fruits bien mûrs et quelques fruits cueillis trop tôt ou trop tard.<br><br>
+        <strong>Douceur (Brix/Sweetness)</strong> : C'est l'observation la plus intéressante du graphique : la distribution présente <strong>deux bosses distinctes</strong>, l'une autour de 8 et l'autre autour de 14. Cela ne ressemble pas à un hasard, on a probablement deux groupes de fruits différents, que ce soit deux variétés d'oranges, deux origines géographiques, ou deux stades de maturité bien distincts. C'est une piste qui mérite d'être creusée.<br><br>
+        <strong>Acidité (pH)</strong> : Le pH est très concentré entre 3,2 et 3,6, avec une moyenne de 3,47. Les oranges sont remarquablement homogènes en termes d'acidité. Tout fruit qui sort de cette fourchette mérite attention : anomalie de mesure, variété atypique, ou fruit en mauvais état.<br><br>
+        <strong>Texture (Softness 1-5)</strong> : Distribution très particulière : les valeurs se concentrent presque exclusivement sur 1, 3 et 5, avec très peu de valeurs intermédiaires. Cela suggère que la texture a été évaluée de façon subjective et catégorielle plutôt que mesurée précisément. Les évaluateurs ont tranché : une orange est soit ferme, soit moyenne, soit molle.<br><br>
+        <strong>Taille et Poids</strong> : Les deux distributions sont relativement étalées (6 à 10 cm · 100 à 300 g). Rien d'anormal, c'est simplement le reflet de la variabilité naturelle des fruits.<br><br>
+        <strong>Temps de récolte (HarvestTime)</strong> : La distribution n'est pas uniforme. On observe un pic notable autour de 12-13 jours, puis les valeurs se répartissent plus librement jusqu'à 25 jours. L'échantillon couvre différents stades post-récolte, avec une légère surreprésentation des fruits récoltés à mi-parcours.<br><br>
         <em>En résumé : cet échantillon décrit globalement des oranges de bonne qualité et bien mûres, avec une acidité très stable. Le point le plus intrigant reste la douceur, dont la distribution bimodale soulève une vraie question sur la composition du lot.</em>
       </p>
     </div></div>""", unsafe_allow_html=True)
@@ -506,9 +506,9 @@ elif "Couleurs" in page:
     # Interprétation du notebook
     st.markdown("""<div class="ins gn"><span class="ins-ic">🌈</span><div>
       <p class="ins-t">Interprétation — Variables Catégorielles</p>
-      <p class="ins-tx">Les oranges de cet échantillon présentent un profil globalement très sain. Côté couleur, les teintes foncées (Deep Orange, Light Orange, Orange-Red) dominent largement, signe d'une bonne maturité générale, tandis que le Yellow-Orange — caractéristique des fruits jeunes — reste anecdotique.<br><br>
+      <p class="ins-tx">Les oranges de cet échantillon présentent un profil globalement très sain. Côté couleur, les teintes foncées (Deep Orange, Light Orange, Orange-Red) dominent largement, signe d'une bonne maturité générale, tandis que le Yellow-Orange la caractéristique des fruits jeunes  reste anecdotique.<br><br>
       La diversité variétale est notable : plusieurs variétés sont représentées avec des effectifs assez équilibrés, la Cara Cara prenant légèrement la tête devant la Star Ruby et la Temple. Aucune variété n'écrase les autres, ce qui donne à cet échantillon une bonne représentativité.<br><br>
-      Enfin, les défauts sont l'exception plutôt que la règle : 149 fruits (61,8%) sont parfaitement sains, et quand un défaut apparaît, il est le plus souvent superficiel — coup de soleil, cicatrice — sans impact réel sur la qualité du fruit.</p>
+      Enfin, les défauts sont l'exception plutôt que la règle : 149 fruits (61,8%) sont parfaitement sains, et quand un défaut apparaît, il est le plus souvent superficiel ,coup de soleil, cicatrice sans impact réel sur la qualité du fruit.</p>
     </div></div>""", unsafe_allow_html=True)
 
 
@@ -516,7 +516,7 @@ elif "Couleurs" in page:
 
 elif "Facteurs" in page:
     st.markdown('<div class="sec">🔗 Matrice de Corrélation</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sec-s">Section 6.1 du notebook — Variables numériques ↔ numériques</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-s">Section 6.1 du notebook — Variables numériques </div>', unsafe_allow_html=True)
 
     # Heatmap triangulaire (identique au notebook)
     st.markdown('<p class="sec-s">Chaque cellule = coefficient de corrélation r entre deux variables · 🔴 rouge = corrélation positive · 🔵 bleu = corrélation négative · Plus la couleur est intense, plus le lien est fort</p>', unsafe_allow_html=True)
@@ -585,9 +585,9 @@ elif "Facteurs" in page:
     st.markdown("""<div class="ins bl"><span class="ins-ic">📐</span><div>
       <p class="ins-t">Interprétation — Matrice de corrélation</p>
       <p class="ins-tx">
-        <strong>Brix (sucre) ↔ Qualité (r = +0.63)</strong> — C'est le lien le plus fort de la matrice : une orange sucrée est presque systématiquement bien notée.<br><br>
-        <strong>HarvestTime ↔ Qualité (r = −0.47)</strong> — Plus une orange reste longtemps après récolte, plus sa qualité se dégrade. Le temps est l'ennemi de la fraîcheur.<br><br>
-        <strong>Softness ↔ Qualité (r = −0.32)</strong> — Un fruit qui ramollit perd en qualité, mais l'effet est plus modéré que le temps de stockage.
+        <strong>Brix (sucre) et Qualité (r = +0.63)</strong> : C'est le lien le plus fort de la matrice : une orange sucrée est presque systématiquement bien notée.<br><br>
+        <strong>HarvestTime et Qualité (r = −0.47)</strong> : Plus une orange reste longtemps après récolte, plus sa qualité se dégrade. Le temps est l'ennemi de la fraîcheur.<br><br>
+        <strong>Softness et Qualité (r = −0.32)</strong> : Un fruit qui ramollit perd en qualité, mais l'effet est plus modéré que le temps de stockage.
       </p>
     </div></div>""", unsafe_allow_html=True)
 
@@ -804,9 +804,9 @@ elif "Variation" in page:
       <p class="ins-t">Interprétation du graphique</p>
       <p class="ins-tx">
         La ligne rouge pointillée est le seuil : toute barre qui la dépasse = relation significative (p &lt; 0.05).<br><br>
-        <strong>Color (rouge foncé) — le plus puissant</strong> : Toutes les barres dépassent largement le seuil. La couleur est liée à absolument toutes les variables numériques, avec une force particulièrement élevée sur le Brix, la Softness, HarvestTime et la Qualité. C'est la variable catégorielle la plus informative du dataset.<br><br>
-        <strong>Variety (orange) — très proche de Color</strong> : Quasiment toutes les barres dépassent le seuil, sauf Poids et Maturité qui restent en dessous. La variété explique bien les différences entre fruits, mais ne détermine ni leur poids ni leur maturité.<br><br>
-        <strong>Blemishes (bleu) — le plus faible</strong> : C'est visuellement frappant : la majorité des barres bleues restent sous la ligne rouge. Seuls pH et Maturité dépassent le seuil. Les défauts sont donc largement indépendants des caractéristiques physiques et chimiques — et surtout indépendants de la <strong>qualité</strong> (p=0.117).
+        <strong>Color (rouge foncé),le plus puissant</strong> : Toutes les barres dépassent largement le seuil. La couleur est liée à absolument toutes les variables numériques, avec une force particulièrement élevée sur le Brix, la Softness, HarvestTime et la Qualité. C'est la variable catégorielle la plus informative du dataset.<br><br>
+        <strong>Variety (orange), très proche de Color</strong> : Quasiment toutes les barres dépassent le seuil, sauf Poids et Maturité qui restent en dessous. La variété explique bien les différences entre fruits, mais ne détermine ni leur poids ni leur maturité.<br><br>
+        <strong>Blemishes (bleu),le plus faible</strong> : C'est visuellement frappant : la majorité des barres bleues restent sous la ligne rouge. Seuls pH et Maturité dépassent le seuil. Les défauts sont donc largement indépendants des caractéristiques physiques et chimiques et surtout indépendants de la <strong>qualité</strong> (p=0.117).
       </p>
     </div></div>""", unsafe_allow_html=True)
 
@@ -950,8 +950,8 @@ elif "bonne orange" in page:
         st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("""<div class="ins am"><span class="ins-ic">🧫</span><div>
-      <p class="ins-t">Les défauts visuels n'impactent pas la qualité — résultat clé</p>
-      <p class="ins-tx">Le T-test confirme ce que le graphique montre : la relation entre défauts visuels et qualité n'est pas statistiquement significative (p = 0.117). Quand un défaut apparaît, il est le plus souvent superficiel — un coup de soleil, une cicatrice — sans impact réel sur la qualité intrinsèque du fruit. Un fruit avec des défauts peut tout à fait avoir une bonne note de qualité.</p>
+      <p class="ins-t">Les défauts visuels n'impactent pas la qualité: résultat clé</p>
+      <p class="ins-tx">Le T-test confirme ce que le graphique montre : la relation entre défauts visuels et qualité n'est pas statistiquement significative (p = 0.117). Quand un défaut apparaît, il est le plus souvent superficiel, un coup de soleil, une cicatrice, sans impact réel sur la qualité intrinsèque du fruit. Un fruit avec des défauts peut tout à fait avoir une bonne note de qualité.</p>
     </div></div>""", unsafe_allow_html=True)
 
 
@@ -991,7 +991,7 @@ elif "Résultats" in page:
         for v1,v2,chi2,p,sig,interp in [
             ("Color","Variety",233.8,0.000,True,"La couleur est biologiquement liée à la variété."),
             ("Color","Blemishes",55.4,0.117,False,"La couleur ne prédit pas les défauts."),
-            ("Variety","Blemishes",285.2,0.080,None,"Zone grise — tendance possible, échantillon insuffisant."),
+            ("Variety","Blemishes",285.2,0.080,None,"Zone grise: tendance possible, échantillon insuffisant."),
         ]:
             if sig is True: bdg='<span class="bdg s">Significatif</span>'
             elif sig is False: bdg='<span class="bdg n">Non significatif</span>'
@@ -1010,18 +1010,18 @@ elif "Résultats" in page:
     st.markdown('<div class="sec">📝 Conclusion Générale</div>', unsafe_allow_html=True)
     st.markdown("""<div class="ins bl"><span class="ins-ic">🔑</span><div>
       <p class="ins-t">Ce que l'analyse exploratoire nous apprend</p>
-      <p class="ins-tx">Cet échantillon de 241 oranges décrit globalement des fruits de <strong>bonne qualité et bien mûrs</strong>, avec une acidité très stable. Le point le plus intrigant reste la sucrosité, dont la distribution en deux groupes distincts (autour de 8°Bx et 14°Bx) soulève une vraie question sur la composition du lot — probablement deux variétés ou deux origines différentes.<br><br>
+      <p class="ins-tx">Cet échantillon de 241 oranges décrit globalement des fruits de <strong>bonne qualité et bien mûrs</strong>, avec une acidité très stable. Le point le plus intrigant reste la sucrosité, dont la distribution en deux groupes distincts (autour de 8°Bx et 14°Bx) soulève une vraie question sur la composition du lot, probablement deux variétés ou deux origines différentes.<br><br>
       La <strong>sucrosité est le prédicteur numéro un</strong> de la qualité (r = +0.63). Loin devant tous les autres facteurs. C'est aussi le seul levier sur lequel on peut agir à la source, via le choix variétal et le timing de récolte.<br><br>
-      Les <strong>défauts visuels ne pénalisent pas la qualité</strong> — résultat contre-intuitif mais statistiquement solide (p = 0.117). Un fruit avec des taches de soleil ou une petite cicatrice mérite la même attention qu'un fruit parfait en apparence.<br><br>
+      Les <strong>défauts visuels ne pénalisent pas la qualité</strong> : résultat contre-intuitif mais statistiquement solide (p = 0.117). Un fruit avec des taches de soleil ou une petite cicatrice mérite la même attention qu'un fruit parfait en apparence.<br><br>
       La <strong>couleur est un résumé visuel de l'orange</strong> : liée significativement à toutes les variables numériques sans exception (ANOVA, p &lt; 0.05 pour chacune), elle constitue un indicateur de terrain rapide et fiable.</p>
     </div></div>""", unsafe_allow_html=True)
 
     st.markdown("""<div class="ins gn"><span class="ins-ic">💡</span><div>
       <p class="ins-t">Recommandations opérationnelles</p>
       <p class="ins-tx">
-        1. <strong>Surveiller le Brix en priorité</strong> — c'est le KPI qualité le plus prédictif. Un seuil minimum de 10°Bx devrait être défini pour la sélection.<br>
-        2. <strong>Minimiser le temps post-récolte</strong> — chaque jour supplémentaire dégrade la qualité (r = −0.47). La logistique rapide est un levier qualité direct.<br>
-        3. <strong>Ne pas écarter les fruits sur leur apparence seule</strong> — les défauts visuels n'impactent pas la qualité réelle (p = 0.117).<br>
-        4. <strong>Investiguer la bimodalité du Brix</strong> — les deux groupes distincts (8° et 14°) méritent une analyse séparée par variété ou origine.
+        1. <strong>Surveiller le Brix en priorité</strong> : c'est le KPI qualité le plus prédictif. Un seuil minimum de 10°Bx devrait être défini pour la sélection.<br>
+        2. <strong>Minimiser le temps post-récolte</strong> : chaque jour supplémentaire dégrade la qualité (r = −0.47). La logistique rapide est un levier qualité direct.<br>
+        3. <strong>Ne pas écarter les fruits sur leur apparence seule</strong> : les défauts visuels n'impactent pas la qualité réelle (p = 0.117).<br>
+        4. <strong>Investiguer la bimodalité du Brix</strong> : les deux groupes distincts (8° et 14°) méritent une analyse séparée par variété ou origine.
       </p>
     </div></div>""", unsafe_allow_html=True)

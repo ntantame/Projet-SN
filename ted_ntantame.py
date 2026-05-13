@@ -206,7 +206,7 @@ with st.sidebar:
         "🔴  Liens entre les catégories",
         "📐  Variation selon les caractéristiques",
         "⭐  Ce qui fait une bonne orange",
-        "📝  Résultats & Recommandations",
+        "📝  Résultats et Recommandations",
     ], label_visibility="collapsed")
     st.markdown("---")
     st.markdown("**Filtres**")
@@ -232,7 +232,7 @@ if "Accueil" in page:
     st.markdown("""<div class="hero">
       <p class="hero-eye">TP Data Science · Analyse Exploratoire</p>
       <h1>Orange Analytics</h1>
-      <p class="hero-sub">Analyse des caractéristiques physico-chimiques des oranges pour identifier les facteurs déterminant leur qualité — 241 fruits · 11 variables · EDA complet</p>
+      <p class="hero-sub">Analyse des caractéristiques physico-chimiques des oranges pour identifier les facteurs déterminant leur qualité : 241 fruits , 11 variables. EDA complet</p>
     </div>""", unsafe_allow_html=True)
 
     st.markdown('<div class="sec">KPIs du lot</div><p class="sec-s">Métriques actionnables — directement liées à la décision</p>', unsafe_allow_html=True)
@@ -961,7 +961,7 @@ elif "Résultats" in page:
     st.markdown("""<div class="hero">
       <p class="hero-eye">Résultats finaux · EDA Orange Dataset</p>
       <h1>Conclusion & KPIs</h1>
-      <p class="hero-sub">Synthèse complète des informations utiles identifiées par l'analyse exploratoire — sans Machine Learning</p>
+      <p class="hero-sub">Synthèse complète des informations utiles identifiées par l'analyse exploratoire</p>
     </div>""", unsafe_allow_html=True)
 
     st.markdown('<div class="sec">🎯 Les 3 Leviers Principaux de la Qualité</div>', unsafe_allow_html=True)

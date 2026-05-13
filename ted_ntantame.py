@@ -724,7 +724,7 @@ elif "Liens" in page:
 # ANOVA / T-TEST
 
 elif "Variation" in page:
-    st.markdown('<div class="sec">📐 ANOVA / T-test — Numériques × Catégorielles</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec">📐 ANOVA / T-test : Numériques et Catégorielles</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Section 6.3 du notebook — Relation entre variables numériques et catégorielles</div>', unsafe_allow_html=True)
 
     cat_cols = ['Color','Variety','Blemishes(Y/N)']

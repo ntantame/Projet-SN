@@ -10,7 +10,7 @@ import itertools
 st.set_page_config(page_title="Orange Analytics", page_icon="🍊",
                    layout="wide", initial_sidebar_state="expanded")
 
-# style 
+# styles 
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -47,7 +47,7 @@ st.markdown("""
   --plt-ann-note: #FFB866;
 }
 
-/*Dark mode overrides  */
+/* Dark mode overrides */
 @media (prefers-color-scheme: dark) {
   :root {
     --dark:#FFE0C0; --mid:#FFB866; --muted:#CC8844;
@@ -162,6 +162,17 @@ def load():
     return dataOrange
 
 dataOrange = load()
+
+# Valeurs de référence globales (dataset complet, avant filtres)
+REF_QUAL   = dataOrange['Quality(1-5)'].mean()
+REF_BRIX   = dataOrange['Brix(Sweetness)'].mean()
+REF_PH     = dataOrange['pH(Acidity)'].mean()
+REF_RIPE   = dataOrange['Ripeness(1-5)'].mean()
+REF_WEIGHT = dataOrange['Weight(g)'].mean()
+REF_HARV   = dataOrange['HarvestTime(days)'].mean()
+REF_SOFT   = dataOrange['Softness(1-5)'].mean()
+REF_SIZE   = dataOrange['Size(cm)'].mean()
+
 NUM = ['Size(cm)','Weight(g)','Brix(Sweetness)','pH(Acidity)',
        'Softness(1-5)','HarvestTime(days)','Ripeness(1-5)','Quality(1-5)']
 NLBL = {'Size(cm)':'Taille (cm)','Weight(g)':'Poids (g)',
@@ -194,7 +205,7 @@ def plt_base(height=None, title_size=13):
     if height: d['height'] = height
     return d
 
-# SIDEBAR 
+# sidebar 
 with st.sidebar:
     st.markdown('<div class="sbl">🍊 Orange Analytics</div>', unsafe_allow_html=True)
     page = st.radio("", [
@@ -232,21 +243,21 @@ if "Accueil" in page:
     st.markdown("""<div class="hero">
       <p class="hero-eye">TP Data Science · Analyse Exploratoire</p>
       <h1>Orange Analytics</h1>
-      <p class="hero-sub">Analyse des caractéristiques physico-chimiques des oranges pour identifier les facteurs déterminant leur qualité : 241 fruits , 11 variables. EDA complet</p>
+      <p class="hero-sub">Analyse des caractéristiques physico-chimiques des oranges pour identifier les facteurs déterminant leur qualité: 241 fruits et 11 variables.<br> EDA complet</p>
     </div>""", unsafe_allow_html=True)
 
-    st.markdown('<div class="sec">KPIs du lot</div><p class="sec-s">Métriques actionnables — directement liées à la décision</p>', unsafe_allow_html=True)
+    st.markdown('<div class="sec">En un coup d\'oeil</div><p class="sec-s">Les chiffres les plus importants pour juger la qualité de ce lot d\'oranges</p>', unsafe_allow_html=True)
     c1,c2,c3,c4 = st.columns(4)
-    with c1: st.markdown(f'<div class="kpi"><p class="kpi-lbl">⭐ Qualité moyenne</p><p class="kpi-val">{qual_moy:.2f}<span>/5</span></p><p class="kpi-ref">Réf. globale : {dataOrange["Quality(1-5)"].mean():.2f} | Δ {qual_moy-dataOrange["Quality(1-5)"].mean():+.2f}</p></div>', unsafe_allow_html=True)
-    with c2: st.markdown(f'<div class="kpi g"><p class="kpi-lbl">✅ Haute qualité ≥ 4/5</p><p class="kpi-val">{pct_hq:.1f}<span>%</span></p><p class="kpi-ref">{int(pct_hq/100*len(fdf))} oranges sur {len(fdf)}</p></div>', unsafe_allow_html=True)
-    with c3: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">⚠️ Basse qualité ≤ 2/5</p><p class="kpi-val">{pct_lq:.1f}<span>%</span></p><p class="kpi-ref">{int(pct_lq/100*len(fdf))} oranges à écarter</p></div>', unsafe_allow_html=True)
-    with c4: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧫 Sans défauts</p><p class="kpi-val">{pct_sd:.1f}<span>%</span></p><p class="kpi-ref">{fdf["sans_defaut"].sum()} conformes / {len(fdf)}</p></div>', unsafe_allow_html=True)
+    with c1: st.markdown(f'<div class="kpi"><p class="kpi-lbl">⭐ Note de qualité moyenne</p><p class="kpi-val">{qual_moy:.2f}<span> sur 5</span></p><p class="kpi-ref">Note moyenne sur l\'ensemble du lot</p></div>', unsafe_allow_html=True)
+    with c2: st.markdown(f'<div class="kpi g"><p class="kpi-lbl">✅ Oranges bien notées</p><p class="kpi-val">{pct_hq:.1f}<span>%</span></p><p class="kpi-ref">{int(pct_hq/100*len(fdf))} oranges sur {len(fdf)} ont une note de 4 ou 5 sur 5</p></div>', unsafe_allow_html=True)
+    with c3: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">⚠️ Oranges à écarter</p><p class="kpi-val">{pct_lq:.1f}<span>%</span></p><p class="kpi-ref">{int(pct_lq/100*len(fdf))} oranges jugées de mauvaise qualité (note 1 ou 2)</p></div>', unsafe_allow_html=True)
+    with c4: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧫 Oranges sans tache ni marque</p><p class="kpi-val">{pct_sd:.1f}<span>%</span></p><p class="kpi-ref">{fdf["sans_defaut"].sum()} oranges d\'apparence parfaite sur {len(fdf)}</p></div>', unsafe_allow_html=True)
 
     c5,c6,c7,c8 = st.columns(4)
-    with c5: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🍬 Sucrosité moy. (Brix)</p><p class="kpi-val">{fdf["Brix(Sweetness)"].mean():.1f}<span>°Bx</span></p><p class="kpi-ref">r qualité = +0.63 (levier n°1)</p></div>', unsafe_allow_html=True)
-    with c6: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">📅 Temps récolte moy.</p><p class="kpi-val">{fdf["HarvestTime(days)"].mean():.0f}<span>j</span></p><p class="kpi-ref">r qualité = −0.47 (à minimiser)</p></div>', unsafe_allow_html=True)
-    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🌿 Maturité moy.</p><p class="kpi-val">{fdf["Ripeness(1-5)"].mean():.2f}<span>/5</span></p><p class="kpi-ref">r qualité = +0.28</p></div>', unsafe_allow_html=True)
-    with c8: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧪 pH moyen</p><p class="kpi-val">{fdf["pH(Acidity)"].mean():.2f}</p><p class="kpi-ref">Fourchette 3.2–3.6, très homogène</p></div>', unsafe_allow_html=True)
+    with c5: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🍬 Douceur moyenne</p><p class="kpi-val">{fdf["Brix(Sweetness)"].mean():.1f}</p><p class="kpi-ref">Plus ce chiffre est élevé, plus l\'orange est sucrée et bonne</p></div>', unsafe_allow_html=True)
+    with c6: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">📅 Jours écoulés depuis la récolte</p><p class="kpi-val">{fdf["HarvestTime(days)"].mean():.0f}<span> jours</span></p><p class="kpi-ref">Plus l\'orange attend, moins elle est bonne.à surveiller</p></div>', unsafe_allow_html=True)
+    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🌿 Niveau de maturité moyen</p><p class="kpi-val">{fdf["Ripeness(1-5)"].mean():.2f}<span> sur 5</span></p><p class="kpi-ref">Les fruits bien mûrs sont systématiquement mieux notés</p></div>', unsafe_allow_html=True)
+    with c8: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧪 Niveau d\'acidité moyen</p><p class="kpi-val">{fdf["pH(Acidity)"].mean():.2f}</p><p class="kpi-ref">Toutes les oranges ont une acidité très proche : c\'est un bon signe</p></div>', unsafe_allow_html=True)
 
     st.markdown('<div class="sec">Aperçu des données</div>', unsafe_allow_html=True)
     st.dataframe(fdf.drop(columns=['sans_defaut']).head(10), use_container_width=True, height=320)
@@ -262,8 +273,8 @@ elif "Chiffres" in page:
     st.dataframe(stats, use_container_width=True, height=340)
 
     st.markdown("""<div class="ins bl"><span class="ins-ic">📋</span><div>
-      <p class="ins-t">Interprétation — Statistiques descriptives</p>
-      <p class="ins-tx">Sur les 241 oranges analysées, les résultats sont globalement encourageants. La qualité se révèle assez homogène, avec une note moyenne de 3,8 sur 5, la plupart des fruits dépassent d'ailleurs la barre des 4. Côté profil gustatif, on est sur des oranges bien sucrées, avec un indice Brix autour de 10,9, et une acidité tout à fait classique pour la variété (pH de 3,47 en moyenne).<br><br>Les gabarits varient pas mal d'un fruit à l'autre entre 100 g et 300 g ,ce qui traduit une certaine diversité physique dans l'échantillon. Enfin, la maturité est au rendez-vous : les fruits sont bien mûrs en moyenne (3,6/5), récoltés environ 15 jours après le pic de maturité.</p>
+      <p class="ins-t">Interprétation: Statistiques descriptives</p>
+      <p class="ins-tx">Sur les 241 oranges analysées, les résultats sont globalement encourageants. La qualité se révèle assez homogène, avec une note moyenne de 3,8 sur 5 ; la plupart des fruits dépassent d'ailleurs la barre des 4. Côté profil gustatif, on est sur des oranges bien sucrées, avec un indice Brix autour de 10,9, et une acidité tout à fait classique pour la variété (pH de 3,47 en moyenne).<br><br>Les gabarits varient pas mal d'un fruit à l'autre  entre 100 g et 300 g, ce qui traduit une certaine diversité physique dans l'échantillon. Enfin, la maturité est au rendez-vous : les fruits sont bien mûrs en moyenne (3,6/5), récoltés environ 15 jours après le pic de maturité.</p>
     </div></div>""", unsafe_allow_html=True)
 
     st.markdown('<div class="sec">Boxplots par couleur</div>', unsafe_allow_html=True)
@@ -333,7 +344,7 @@ elif "Répartition" in page:
         <strong>Douceur (Brix/Sweetness)</strong> : C'est l'observation la plus intéressante du graphique : la distribution présente <strong>deux bosses distinctes</strong>, l'une autour de 8 et l'autre autour de 14. Cela ne ressemble pas à un hasard, on a probablement deux groupes de fruits différents, que ce soit deux variétés d'oranges, deux origines géographiques, ou deux stades de maturité bien distincts. C'est une piste qui mérite d'être creusée.<br><br>
         <strong>Acidité (pH)</strong> : Le pH est très concentré entre 3,2 et 3,6, avec une moyenne de 3,47. Les oranges sont remarquablement homogènes en termes d'acidité. Tout fruit qui sort de cette fourchette mérite attention : anomalie de mesure, variété atypique, ou fruit en mauvais état.<br><br>
         <strong>Texture (Softness 1-5)</strong> : Distribution très particulière : les valeurs se concentrent presque exclusivement sur 1, 3 et 5, avec très peu de valeurs intermédiaires. Cela suggère que la texture a été évaluée de façon subjective et catégorielle plutôt que mesurée précisément. Les évaluateurs ont tranché : une orange est soit ferme, soit moyenne, soit molle.<br><br>
-        <strong>Taille et Poids</strong> : Les deux distributions sont relativement étalées (6 à 10 cm · 100 à 300 g). Rien d'anormal, c'est simplement le reflet de la variabilité naturelle des fruits.<br><br>
+        <strong>Taille et Poids</strong> : Les deux distributions sont relativement étalées (6 à 10 cm · 100 à 300 g). Rien d'anormal: c'est simplement le reflet de la variabilité naturelle des fruits.<br><br>
         <strong>Temps de récolte (HarvestTime)</strong> : La distribution n'est pas uniforme. On observe un pic notable autour de 12-13 jours, puis les valeurs se répartissent plus librement jusqu'à 25 jours. L'échantillon couvre différents stades post-récolte, avec une légère surreprésentation des fruits récoltés à mi-parcours.<br><br>
         <em>En résumé : cet échantillon décrit globalement des oranges de bonne qualité et bien mûres, avec une acidité très stable. Le point le plus intrigant reste la douceur, dont la distribution bimodale soulève une vraie question sur la composition du lot.</em>
       </p>
@@ -393,7 +404,7 @@ elif "Couleurs" in page:
     st.markdown('<div class="sec">🏷️ Analyse des Variables Catégorielles</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Analyse univariée — Section 5 du notebook</div>', unsafe_allow_html=True)
 
-    # ── Graphique 1 : Distribution des Couleurs (bar)
+    # Graphique 1 : Distribution des Couleurs (bar)
     st.markdown('<div class="sec-s">Graphique 1 — Répartition des oranges selon leur couleur</div>', unsafe_allow_html=True)
     color_counts = fdf['Color'].value_counts().reset_index()
     color_counts.columns = ['Color','Nombre']
@@ -503,20 +514,20 @@ elif "Couleurs" in page:
         )
         st.plotly_chart(fig, use_container_width=True)
 
-    # Interprétation du notebook
+    # Graphique 4 : Interprétation du notebook
     st.markdown("""<div class="ins gn"><span class="ins-ic">🌈</span><div>
-      <p class="ins-t">Interprétation — Variables Catégorielles</p>
-      <p class="ins-tx">Les oranges de cet échantillon présentent un profil globalement très sain. Côté couleur, les teintes foncées (Deep Orange, Light Orange, Orange-Red) dominent largement, signe d'une bonne maturité générale, tandis que le Yellow-Orange la caractéristique des fruits jeunes  reste anecdotique.<br><br>
+      <p class="ins-t">Interprétation : Variables Catégorielles</p>
+      <p class="ins-tx">Les oranges de cet échantillon présentent un profil globalement très sain. Côté couleur, les teintes foncées (Deep Orange, Light Orange, Orange-Red) dominent largement, signe d'une bonne maturité générale, tandis que le Yellow-Orange, caractéristique des fruits jeunes, reste anecdotique.<br><br>
       La diversité variétale est notable : plusieurs variétés sont représentées avec des effectifs assez équilibrés, la Cara Cara prenant légèrement la tête devant la Star Ruby et la Temple. Aucune variété n'écrase les autres, ce qui donne à cet échantillon une bonne représentativité.<br><br>
-      Enfin, les défauts sont l'exception plutôt que la règle : 149 fruits (61,8%) sont parfaitement sains, et quand un défaut apparaît, il est le plus souvent superficiel ,coup de soleil, cicatrice sans impact réel sur la qualité du fruit.</p>
+      Enfin, les défauts sont l'exception plutôt que la règle : 149 fruits (61,8%) sont parfaitement sains, et quand un défaut apparaît, il est le plus souvent superficiel, coup de soleil, cicatrice sans impact réel sur la qualité du fruit.</p>
     </div></div>""", unsafe_allow_html=True)
 
 
-#  CORRÉLATIONS
+# CORRÉLATIONS
 
 elif "Facteurs" in page:
     st.markdown('<div class="sec">🔗 Matrice de Corrélation</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sec-s">Section 6.1 du notebook — Variables numériques </div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-s">Section 6.1 du notebook — Variables numériques</div>', unsafe_allow_html=True)
 
     # Heatmap triangulaire (identique au notebook)
     st.markdown('<p class="sec-s">Chaque cellule = coefficient de corrélation r entre deux variables · 🔴 rouge = corrélation positive · 🔵 bleu = corrélation négative · Plus la couleur est intense, plus le lien est fort</p>', unsafe_allow_html=True)
@@ -583,7 +594,7 @@ elif "Facteurs" in page:
         st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("""<div class="ins bl"><span class="ins-ic">📐</span><div>
-      <p class="ins-t">Interprétation — Matrice de corrélation</p>
+      <p class="ins-t">Interprétation : Matrice de corrélation</p>
       <p class="ins-tx">
         <strong>Brix (sucre) et Qualité (r = +0.63)</strong> : C'est le lien le plus fort de la matrice : une orange sucrée est presque systématiquement bien notée.<br><br>
         <strong>HarvestTime et Qualité (r = −0.47)</strong> : Plus une orange reste longtemps après récolte, plus sa qualité se dégrade. Le temps est l'ennemi de la fraîcheur.<br><br>
@@ -640,7 +651,7 @@ elif "Liens" in page:
         ('Color','Blemishes(Y/N)'):
             ("Pas de relation significative. La couleur d'une orange ne permet pas de prédire si elle aura des défauts ou non. Un fruit rouge-orangé n'est pas plus ou moins abîmé qu'un fruit jaune-orangé.",False),
         ('Variety','Blemishes(Y/N)'):
-            ("Zone grise : la p-value frôle le seuil (0.080 vs 0.05). On ne peut pas conclure formellement, mais ce n'est pas non plus une indépendance totale. Certaines variétés pourraient être légèrement plus sujettes aux défauts, mais l'échantillon n'est pas assez grand pour le confirmer.",None),
+            ("Zone grise : la p-value frôle le seuil (0.080 et 0.05). On ne peut pas conclure formellement, mais ce n'est pas non plus une indépendance totale. Certaines variétés pourraient être légèrement plus sujettes aux défauts, mais l'échantillon n'est pas assez grand pour le confirmer.",None),
     }
 
     # Résultats texte
@@ -657,7 +668,7 @@ elif "Liens" in page:
             bdg = '<span class="bdg g">Zone grise</span>'
             force = "forte"
         st.markdown(f"""<div class="card">
-          <div class="card-hd"><span class="card-title">{v1} ↔ {v2}</span>{bdg}</div>
+          <div class="card-hd"><span class="card-title">{v1} et {v2}</span>{bdg}</div>
           <p class="stat-vals">Chi² = {chi2:.3f} &nbsp;·&nbsp; p-value = {p:.4f} &nbsp;·&nbsp; ddl = {dof} &nbsp;·&nbsp; Force : {force}</p>
           <p class="interp">{interp}</p>
         </div>""", unsafe_allow_html=True)
@@ -733,11 +744,11 @@ elif "Variation" in page:
         anova_results[cat] = pvals
 
     interps_anova = {
-        'Color': ("blue","Color × Variables numériques (ANOVA)",
-            "C'est la relation la plus forte : toutes les variables numériques sont significativement liées à la couleur, sans exception. La couleur d'une orange n'est pas qu'esthétique — elle reflète fidèlement son profil complet : taille, poids, sucre, acidité, texture, temps de récolte et qualité. La couleur est quasiment un résumé visuel de l'orange."),
-        'Variety': ("am","Variety × Variables numériques (ANOVA)",
-            "La variété influence significativement la plupart des variables, sauf le poids et la maturité (Ripeness). Autrement dit, selon la variété, les oranges diffèrent en taille, sucre, acidité, texture et qualité — mais leur poids et leur niveau de maturité restent comparables d'une variété à l'autre."),
-        'Blemishes(Y/N)': ("rd","Blemishes × Variables numériques (T-test)",
+        'Color': ("blue","Color et Variables numériques (ANOVA)",
+            "C'est la relation la plus forte : toutes les variables numériques sont significativement liées à la couleur, sans exception. La couleur d'une orange n'est pas qu'esthétique, elle reflète fidèlement son profil complet : taille, poids, sucre, acidité, texture, temps de récolte et qualité. La couleur est quasiment un résumé visuel de l'orange."),
+        'Variety': ("am","Variety et Variables numériques (ANOVA)",
+            "La variété influence significativement la plupart des variables, sauf le poids et la maturité (Ripeness). Autrement dit, selon la variété, les oranges diffèrent en taille, sucre, acidité, texture et qualité, mais leur poids et leur niveau de maturité restent comparables d'une variété à l'autre."),
+        'Blemishes(Y/N)': ("rd","Blemishes et Variables numériques (T-test)",
             "C'est la relation la plus faible des trois. Les défauts ne sont liés significativement qu'à quelques variables isolées (poids, pH, maturité notamment), et pas du tout à la qualité finale (p=0.117). Cela confirme ce qu'on avait observé avec le Khi-2 : les défauts sont superficiels et n'impactent pas vraiment la qualité intrinsèque du fruit."),
     }
 
@@ -804,9 +815,9 @@ elif "Variation" in page:
       <p class="ins-t">Interprétation du graphique</p>
       <p class="ins-tx">
         La ligne rouge pointillée est le seuil : toute barre qui la dépasse = relation significative (p &lt; 0.05).<br><br>
-        <strong>Color (rouge foncé),le plus puissant</strong> : Toutes les barres dépassent largement le seuil. La couleur est liée à absolument toutes les variables numériques, avec une force particulièrement élevée sur le Brix, la Softness, HarvestTime et la Qualité. C'est la variable catégorielle la plus informative du dataset.<br><br>
+        <strong>Color (rouge foncé) , le plus puissant</strong> : Toutes les barres dépassent largement le seuil. La couleur est liée à absolument toutes les variables numériques, avec une force particulièrement élevée sur le Brix, la Softness, HarvestTime et la Qualité. C'est la variable catégorielle la plus informative du dataset.<br><br>
         <strong>Variety (orange), très proche de Color</strong> : Quasiment toutes les barres dépassent le seuil, sauf Poids et Maturité qui restent en dessous. La variété explique bien les différences entre fruits, mais ne détermine ni leur poids ni leur maturité.<br><br>
-        <strong>Blemishes (bleu),le plus faible</strong> : C'est visuellement frappant : la majorité des barres bleues restent sous la ligne rouge. Seuls pH et Maturité dépassent le seuil. Les défauts sont donc largement indépendants des caractéristiques physiques et chimiques et surtout indépendants de la <strong>qualité</strong> (p=0.117).
+        <strong>Blemishes (bleu), le plus faible</strong> : C'est visuellement frappant : la majorité des barres bleues restent sous la ligne rouge. Seuls pH et Maturité dépassent le seuil. Les défauts sont donc largement indépendants des caractéristiques physiques et chimiques, et surtout indépendants de la <strong>qualité</strong> (p=0.117).
       </p>
     </div></div>""", unsafe_allow_html=True)
 
@@ -817,7 +828,7 @@ elif "bonne orange" in page:
     st.markdown('<div class="sec">⭐ Analyse Approfondie de la Qualité</div>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">La Qualité (1-5) est la variable cible de l\'analyse — voici comment elle se distribue et ce qui l\'influence</p>', unsafe_allow_html=True)
 
-    # ── Graphique 1 : Distribution + Qualité par couleur
+    # Graphique 1 : Distribution + Qualité par couleur
     st.markdown('<p style="font-size:.82rem;font-weight:600;color:#FFE0C0;margin:12px 0 4px">Graphique 1 — Distribution de la Qualité &nbsp;|&nbsp; Graphique 2 — Qualité moyenne selon la couleur</p>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">À gauche : comment les notes se répartissent sur l\'ensemble du lot · À droite : est-ce que la couleur de l\'orange influence sa note ?</p>', unsafe_allow_html=True)
     c1,c2 = st.columns(2)
@@ -873,7 +884,7 @@ elif "bonne orange" in page:
         )
         st.plotly_chart(fig, use_container_width=True)
 
-    #  Graphique 3 : Qualité par variété
+    # Graphique 3 : Qualité par variété
     st.markdown('<p style="font-size:.82rem;font-weight:600;color:#FFE0C0;margin:20px 0 4px">Graphique 3 — Qualité moyenne par variété d\'orange</p>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">Chaque barre représente la note de qualité moyenne des oranges de cette variété · Permet d\'identifier les variétés les plus qualitatives</p>', unsafe_allow_html=True)
     qv = fdf.groupby('Variety')['Quality(1-5)'].mean().reset_index().sort_values('Quality(1-5)', ascending=False)
@@ -902,7 +913,7 @@ elif "bonne orange" in page:
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    #  Graphiques 4 & 5 : Défauts vs qualité
+    # Graphique 4 : Défauts vs qualité
     st.markdown('<p style="font-size:.82rem;font-weight:600;color:#FFE0C0;margin:20px 0 4px">Graphique 4 — Qualité selon la présence de défauts &nbsp;|&nbsp; Graphique 5 — Qualité par type de défaut</p>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">Question clé : est-ce qu\'une orange avec des défauts visuels a forcément une moins bonne qualité ? (réponse : NON, p = 0.117)</p>', unsafe_allow_html=True)
     c3,c4 = st.columns(2)
@@ -950,7 +961,7 @@ elif "bonne orange" in page:
         st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("""<div class="ins am"><span class="ins-ic">🧫</span><div>
-      <p class="ins-t">Les défauts visuels n'impactent pas la qualité: résultat clé</p>
+      <p class="ins-t">Les défauts visuels n'impactent pas la qualité : résultat clé</p>
       <p class="ins-tx">Le T-test confirme ce que le graphique montre : la relation entre défauts visuels et qualité n'est pas statistiquement significative (p = 0.117). Quand un défaut apparaît, il est le plus souvent superficiel, un coup de soleil, une cicatrice, sans impact réel sur la qualité intrinsèque du fruit. Un fruit avec des défauts peut tout à fait avoir une bonne note de qualité.</p>
     </div></div>""", unsafe_allow_html=True)
 
@@ -964,24 +975,24 @@ elif "Résultats" in page:
       <p class="hero-sub">Synthèse complète des informations utiles identifiées par l'analyse exploratoire</p>
     </div>""", unsafe_allow_html=True)
 
-    st.markdown('<div class="sec">🎯 Les 3 Leviers Principaux de la Qualité</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec">🎯 Les 3 choses qui font une bonne orange</div>', unsafe_allow_html=True)
     c1,c2,c3 = st.columns(3)
-    with c1: st.markdown('<div class="kpi g"><span style="font-size:1.4rem">🥇</span><p class="kpi-lbl">Levier N°1</p><p class="kpi-val" style="font-size:1.15rem">Sucrosité (Brix)</p><p class="kpi-ref">r = +0.63 · Corrélation la plus forte de la matrice</p></div>', unsafe_allow_html=True)
-    with c2: st.markdown('<div class="kpi r"><span style="font-size:1.4rem">🥈</span><p class="kpi-lbl">Levier N°2</p><p class="kpi-val" style="font-size:1.15rem">Temps de récolte</p><p class="kpi-ref">r = −0.47 · Le temps dégrade la qualité</p></div>', unsafe_allow_html=True)
-    with c3: st.markdown('<div class="kpi"><span style="font-size:1.4rem">🥉</span><p class="kpi-lbl">Levier N°3</p><p class="kpi-val" style="font-size:1.15rem">Mollesse / pH</p><p class="kpi-ref">r = −0.32 / −0.30 · Indicateurs de dégradation</p></div>', unsafe_allow_html=True)
+    with c1: st.markdown('<div class="kpi g"><span style="font-size:1.4rem">🥇</span><p class="kpi-lbl">Ce qui compte le plus</p><p class="kpi-val" style="font-size:1.15rem">Le taux de sucre</p><p class="kpi-ref">Plus l\'orange est sucrée, meilleure est sa note de qualité</p></div>', unsafe_allow_html=True)
+    with c2: st.markdown('<div class="kpi r"><span style="font-size:1.4rem">🥈</span><p class="kpi-lbl">Ce qu\'il faut surveiller</p><p class="kpi-val" style="font-size:1.15rem">Le temps après récolte</p><p class="kpi-ref">Plus l\'orange attend, plus sa qualité se dégrade</p></div>', unsafe_allow_html=True)
+    with c3: st.markdown('<div class="kpi"><span style="font-size:1.4rem">🥉</span><p class="kpi-lbl">Les signes d\'alerte</p><p class="kpi-val" style="font-size:1.15rem">La mollesse et l\'acidité</p><p class="kpi-ref">Quand le fruit ramollit ou devient trop acide, la qualité baisse</p></div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="sec">📊 KPIs Finaux du Lot</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec">📊 Chiffres clés du lot analysé</div>', unsafe_allow_html=True)
     c1,c2,c3,c4 = st.columns(4)
-    with c1: st.markdown(f'<div class="kpi g"><p class="kpi-lbl">⭐ Qualité moyenne</p><p class="kpi-val">3.82<span>/5</span></p><p class="kpi-ref">Majorité des fruits ≥ 4/5</p></div>', unsafe_allow_html=True)
-    with c2: st.markdown(f'<div class="kpi g"><p class="kpi-lbl">✅ Haute qualité ≥ 4/5</p><p class="kpi-val">65.1<span>%</span></p><p class="kpi-ref">157 oranges sur 241</p></div>', unsafe_allow_html=True)
-    with c3: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">⚠️ Basse qualité ≤ 2/5</p><p class="kpi-val">9.5<span>%</span></p><p class="kpi-ref">23 oranges à écarter</p></div>', unsafe_allow_html=True)
-    with c4: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧫 Sans défauts</p><p class="kpi-val">61.8<span>%</span></p><p class="kpi-ref">149 conformes sur 241</p></div>', unsafe_allow_html=True)
+    with c1: st.markdown(f'<div class="kpi g"><p class="kpi-lbl">⭐ Note de qualité moyenne</p><p class="kpi-val">3.82<span> sur 5</span></p><p class="kpi-ref">La majorité des oranges sont bien notées</p></div>', unsafe_allow_html=True)
+    with c2: st.markdown(f'<div class="kpi g"><p class="kpi-lbl">✅ Oranges bien notées</p><p class="kpi-val">65.1<span>%</span></p><p class="kpi-ref">157 oranges sur 241 ont une note de 4 ou 5 sur 5</p></div>', unsafe_allow_html=True)
+    with c3: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">⚠️ Oranges à écarter</p><p class="kpi-val">9.5<span>%</span></p><p class="kpi-ref">23 oranges jugées de mauvaise qualité dans ce lot</p></div>', unsafe_allow_html=True)
+    with c4: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧫 Oranges sans tache ni marque</p><p class="kpi-val">61.8<span>%</span></p><p class="kpi-ref">149 oranges d\'apparence parfaite sur 241</p></div>', unsafe_allow_html=True)
 
     c5,c6,c7,c8 = st.columns(4)
-    with c5: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🍬 Sucrosité moy.</p><p class="kpi-val">10.9<span>°Bx</span></p><p class="kpi-ref">Levier n°1 de la qualité</p></div>', unsafe_allow_html=True)
-    with c6: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">📅 Temps récolte moy.</p><p class="kpi-val">15<span>jours</span></p><p class="kpi-ref">À minimiser (r = −0.47)</p></div>', unsafe_allow_html=True)
-    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧪 pH moyen</p><p class="kpi-val">3.47</p><p class="kpi-ref">Fourchette 3.2–3.6 homogène</p></div>', unsafe_allow_html=True)
-    with c8: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🌿 Maturité moy.</p><p class="kpi-val">3.6<span>/5</span></p><p class="kpi-ref">Fruits bien mûrs en moyenne</p></div>', unsafe_allow_html=True)
+    with c5: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🍬 Douceur moyenne</p><p class="kpi-val">10.9</p><p class="kpi-ref">Plus ce chiffre est élevé, plus l\'orange est sucrée et bonne</p></div>', unsafe_allow_html=True)
+    with c6: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">📅 Jours depuis la récolte</p><p class="kpi-val">15<span> jours</span></p><p class="kpi-ref">Plus l\'orange attend, moins elle est bonne</p></div>', unsafe_allow_html=True)
+    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧪 Niveau d\'acidité moyen</p><p class="kpi-val">3.47</p><p class="kpi-ref">Toutes les oranges ont une acidité très proche — c\'est un bon signe</p></div>', unsafe_allow_html=True)
+    with c8: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🌿 Niveau de maturité moyen</p><p class="kpi-val">3.6<span> sur 5</span></p><p class="kpi-ref">Les fruits bien mûrs sont systématiquement mieux notés</p></div>', unsafe_allow_html=True)
 
     # Synthèse résultats statistiques
     st.markdown('<div class="sec">🧪 Synthèse des Tests Statistiques</div>', unsafe_allow_html=True)
@@ -991,20 +1002,20 @@ elif "Résultats" in page:
         for v1,v2,chi2,p,sig,interp in [
             ("Color","Variety",233.8,0.000,True,"La couleur est biologiquement liée à la variété."),
             ("Color","Blemishes",55.4,0.117,False,"La couleur ne prédit pas les défauts."),
-            ("Variety","Blemishes",285.2,0.080,None,"Zone grise: tendance possible, échantillon insuffisant."),
+            ("Variety","Blemishes",285.2,0.080,None,"Zone grise : tendance possible, échantillon insuffisant."),
         ]:
             if sig is True: bdg='<span class="bdg s">Significatif</span>'
             elif sig is False: bdg='<span class="bdg n">Non significatif</span>'
             else: bdg='<span class="bdg g">Zone grise</span>'
-            st.markdown(f'<div class="card"><div class="card-hd"><span class="card-title">{v1} ↔ {v2}</span>{bdg}</div><p class="stat-vals">Chi² = {chi2} · p = {p}</p><p class="interp">{interp}</p></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="card"><div class="card-hd"><span class="card-title">{v1} et {v2}</span>{bdg}</div><p class="stat-vals">Chi² = {chi2} · p = {p}</p><p class="interp">{interp}</p></div>', unsafe_allow_html=True)
     with c2:
-        st.markdown("**ANOVA/T-test — Numériques × Catégorielles**")
+        st.markdown("**ANOVA/T-test: Numériques et Catégorielles**")
         for cat, desc, bdg_txt, bdg_cls in [
             ("Color","Toutes les variables sont significativement liées à la couleur.","100% significatif","s"),
             ("Variety","Influence la plupart des variables, sauf Poids et Maturité.","Largement significatif","s"),
             ("Blemishes","Pas du tout lié à la Qualité (p=0.117). Défauts superficiels.","Qualité non affectée","n"),
         ]:
-            st.markdown(f'<div class="card"><div class="card-hd"><span class="card-title">{cat} → Variables numériques</span><span class="bdg {bdg_cls}">{bdg_txt}</span></div><p class="interp">{desc}</p></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="card"><div class="card-hd"><span class="card-title">{cat} et Variables numériques</span><span class="bdg {bdg_cls}">{bdg_txt}</span></div><p class="interp">{desc}</p></div>', unsafe_allow_html=True)
 
     # Conclusion narrative complète
     st.markdown('<div class="sec">📝 Conclusion Générale</div>', unsafe_allow_html=True)
@@ -1012,7 +1023,7 @@ elif "Résultats" in page:
       <p class="ins-t">Ce que l'analyse exploratoire nous apprend</p>
       <p class="ins-tx">Cet échantillon de 241 oranges décrit globalement des fruits de <strong>bonne qualité et bien mûrs</strong>, avec une acidité très stable. Le point le plus intrigant reste la sucrosité, dont la distribution en deux groupes distincts (autour de 8°Bx et 14°Bx) soulève une vraie question sur la composition du lot, probablement deux variétés ou deux origines différentes.<br><br>
       La <strong>sucrosité est le prédicteur numéro un</strong> de la qualité (r = +0.63). Loin devant tous les autres facteurs. C'est aussi le seul levier sur lequel on peut agir à la source, via le choix variétal et le timing de récolte.<br><br>
-      Les <strong>défauts visuels ne pénalisent pas la qualité</strong> : résultat contre-intuitif mais statistiquement solide (p = 0.117). Un fruit avec des taches de soleil ou une petite cicatrice mérite la même attention qu'un fruit parfait en apparence.<br><br>
+      Les <strong>défauts visuels ne pénalisent pas la qualité</strong> , résultat contre-intuitif mais statistiquement solide (p = 0.117). Un fruit avec des taches de soleil ou une petite cicatrice mérite la même attention qu'un fruit parfait en apparence.<br><br>
       La <strong>couleur est un résumé visuel de l'orange</strong> : liée significativement à toutes les variables numériques sans exception (ANOVA, p &lt; 0.05 pour chacune), elle constitue un indicateur de terrain rapide et fiable.</p>
     </div></div>""", unsafe_allow_html=True)
 

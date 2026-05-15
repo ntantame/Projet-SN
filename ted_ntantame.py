@@ -562,7 +562,7 @@ elif "Facteurs" in page:
     st.plotly_chart(fig, use_container_width=True)
 
     # Corrélations avec la qualité
-    st.markdown('<div class="sec-s">Graphique de droite — Classement des variables par force de corrélation avec la Qualité</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-s">Graphique de droite : Classement des variables par force de corrélation avec la Qualité</div>', unsafe_allow_html=True)
     c1, c2 = st.columns([2, 3])
     with c1:
         st.markdown("**Corrélations avec la Qualité (triées)**")
@@ -674,7 +674,7 @@ elif "Liens" in page:
         </div>""", unsafe_allow_html=True)
 
     # Tableau de contingence interactif
-    st.markdown('<div class="sec-s">Tableau de contingence — Croisement des effectifs entre deux variables catégorielles · Chaque cellule = nombre d\'oranges appartenant aux deux catégories simultanément</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-s">Tableau de contingence: Croisement des effectifs entre deux variables catégorielles · Chaque cellule = nombre d\'oranges appartenant aux deux catégories simultanément</div>', unsafe_allow_html=True)
     v1_sel = st.selectbox("Variable 1 (lignes)", cat_cols, index=0)
     v2_sel = st.selectbox("Variable 2 (colonnes)", [c for c in cat_cols if c != v1_sel], index=0)
     ct_df = pd.crosstab(fdf[v1_sel], fdf[v2_sel])
@@ -891,7 +891,7 @@ elif "bonne orange" in page:
     fig = px.bar(qv, x='Variety', y='Quality(1-5)',
                  color='Quality(1-5)',
                  color_continuous_scale=['#FFD580','#FF6B00','#C0392B'],
-                 title="Qualité moyenne par variété d'orange — classement du meilleur au moins bon<br><sup>Couleur = intensité de la qualité · Plus foncé = meilleur · Score sur 5</sup>",
+                 title="Qualité moyenne par variété d'orange: classement du meilleur au moins bon<br><sup>Couleur = intensité de la qualité · Plus foncé = meilleur · Score sur 5</sup>",
                  labels={'Variety': 'Variété d\'orange', 'Quality(1-5)': 'Qualité moyenne (/ 5)'},
                  text=qv['Quality(1-5)'].round(2))
     fig.add_hline(y=fdf['Quality(1-5)'].mean(), line_dash="dash", line_color="red", line_width=1.5,
@@ -991,7 +991,7 @@ elif "Résultats" in page:
     c5,c6,c7,c8 = st.columns(4)
     with c5: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Douceur moyenne</p><p class="kpi-val">10.9</p><p class="kpi-ref">Plus ce chiffre est élevé, plus l\'orange est sucrée et bonne</p></div>', unsafe_allow_html=True)
     with c6: st.markdown(f'<div class="kpi r"><p class="kpi-lbl"> Jours depuis la récolte</p><p class="kpi-val">15<span> jours</span></p><p class="kpi-ref">Plus l\'orange attend, moins elle est bonne</p></div>', unsafe_allow_html=True)
-    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Niveau d\'acidité moyen</p><p class="kpi-val">3.47</p><p class="kpi-ref">Toutes les oranges ont une acidité très proche — c\'est un bon signe</p></div>', unsafe_allow_html=True)
+    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Niveau d\'acidité moyen</p><p class="kpi-val">3.47</p><p class="kpi-ref">Toutes les oranges ont une acidité très proche : c\'est un bon signe</p></div>', unsafe_allow_html=True)
     with c8: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Niveau de maturité moyen</p><p class="kpi-val">3.6<span> sur 5</span></p><p class="kpi-ref">Les fruits bien mûrs sont systématiquement mieux notés</p></div>', unsafe_allow_html=True)
 
     # Synthèse résultats statistiques

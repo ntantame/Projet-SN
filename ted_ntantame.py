@@ -7,7 +7,7 @@ from plotly.subplots import make_subplots
 from scipy.stats import chi2_contingency, f_oneway, ttest_ind
 import itertools
 
-st.set_page_config(page_title="Orange Analytics", page_icon="🍊",
+st.set_page_config(page_title="Orange Analytics", page_icon="",
                    layout="wide", initial_sidebar_state="expanded")
 
 # styles 
@@ -88,7 +88,7 @@ html,body,[class*="css"]{ font-family:'DM Sans',sans-serif; }
 
 .hero{background:linear-gradient(135deg,#1A0A00 0%,#3D1A00 40%,#FF6B00 100%);
   border-radius:20px;padding:44px 52px;margin-bottom:28px;position:relative;overflow:hidden;}
-.hero::before{content:"🍊";position:absolute;right:52px;top:50%;transform:translateY(-50%);
+.hero::before{content:"";position:absolute;right:52px;top:50%;transform:translateY(-50%);
   font-size:90px;opacity:.18;filter:blur(2px);}
 .hero::after{content:'';position:absolute;inset:0;
   background:repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(255,255,255,.015) 40px,rgba(255,255,255,.015) 41px);pointer-events:none;}
@@ -207,17 +207,17 @@ def plt_base(height=None, title_size=13):
 
 # sidebar 
 with st.sidebar:
-    st.markdown('<div class="sbl">🍊 Orange Analytics</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sbl"> Orange Analytics</div>', unsafe_allow_html=True)
     page = st.radio("", [
-        "🏠  Accueil",
-        "📊  Chiffres clés du lot",
-        "📉  Répartition des oranges",
-        "🏷️  Couleurs, Variétés et Défauts",
-        "🔗  Facteurs influençant la qualité",
-        "🔴  Liens entre les catégories",
-        "📐  Variation selon les caractéristiques",
-        "⭐  Ce qui fait une bonne orange",
-        "📝  Résultats et Recommandations",
+        "  Accueil",
+        "  Chiffres clés du lot",
+        "  Répartition des oranges",
+        "  Couleurs, Variétés et Défauts",
+        "  Facteurs influençant la qualité",
+        "  Liens entre les catégories",
+        "  Variation selon les caractéristiques",
+        "  Ce qui fait une bonne orange",
+        "  Résultats et Recommandations",
     ], label_visibility="collapsed")
     st.markdown("---")
     st.markdown("**Filtres**")
@@ -248,16 +248,16 @@ if "Accueil" in page:
 
     st.markdown('<div class="sec">En un coup d\'oeil</div><p class="sec-s">Les chiffres les plus importants pour juger la qualité de ce lot d\'oranges</p>', unsafe_allow_html=True)
     c1,c2,c3,c4 = st.columns(4)
-    with c1: st.markdown(f'<div class="kpi"><p class="kpi-lbl">⭐ Note de qualité moyenne</p><p class="kpi-val">{qual_moy:.2f}<span> sur 5</span></p><p class="kpi-ref">Note moyenne sur l\'ensemble du lot</p></div>', unsafe_allow_html=True)
-    with c2: st.markdown(f'<div class="kpi g"><p class="kpi-lbl">✅ Oranges bien notées</p><p class="kpi-val">{pct_hq:.1f}<span>%</span></p><p class="kpi-ref">{int(pct_hq/100*len(fdf))} oranges sur {len(fdf)} ont une note de 4 ou 5 sur 5</p></div>', unsafe_allow_html=True)
-    with c3: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">⚠️ Oranges à écarter</p><p class="kpi-val">{pct_lq:.1f}<span>%</span></p><p class="kpi-ref">{int(pct_lq/100*len(fdf))} oranges jugées de mauvaise qualité (note 1 ou 2)</p></div>', unsafe_allow_html=True)
-    with c4: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧫 Oranges sans tache ni marque</p><p class="kpi-val">{pct_sd:.1f}<span>%</span></p><p class="kpi-ref">{fdf["sans_defaut"].sum()} oranges d\'apparence parfaite sur {len(fdf)}</p></div>', unsafe_allow_html=True)
+    with c1: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Note de qualité moyenne</p><p class="kpi-val">{qual_moy:.2f}<span> sur 5</span></p><p class="kpi-ref">Note moyenne sur l\'ensemble du lot</p></div>', unsafe_allow_html=True)
+    with c2: st.markdown(f'<div class="kpi g"><p class="kpi-lbl"> Oranges bien notées</p><p class="kpi-val">{pct_hq:.1f}<span>%</span></p><p class="kpi-ref">{int(pct_hq/100*len(fdf))} oranges sur {len(fdf)} ont une note de 4 ou 5 sur 5</p></div>', unsafe_allow_html=True)
+    with c3: st.markdown(f'<div class="kpi r"><p class="kpi-lbl"> Oranges à écarter</p><p class="kpi-val">{pct_lq:.1f}<span>%</span></p><p class="kpi-ref">{int(pct_lq/100*len(fdf))} oranges jugées de mauvaise qualité (note 1 ou 2)</p></div>', unsafe_allow_html=True)
+    with c4: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Oranges sans tache ni marque</p><p class="kpi-val">{pct_sd:.1f}<span>%</span></p><p class="kpi-ref">{fdf["sans_defaut"].sum()} oranges d\'apparence parfaite sur {len(fdf)}</p></div>', unsafe_allow_html=True)
 
     c5,c6,c7,c8 = st.columns(4)
-    with c5: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🍬 Douceur moyenne</p><p class="kpi-val">{fdf["Brix(Sweetness)"].mean():.1f}</p><p class="kpi-ref">Plus ce chiffre est élevé, plus l\'orange est sucrée et bonne</p></div>', unsafe_allow_html=True)
-    with c6: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">📅 Jours écoulés depuis la récolte</p><p class="kpi-val">{fdf["HarvestTime(days)"].mean():.0f}<span> jours</span></p><p class="kpi-ref">Plus l\'orange attend, moins elle est bonne.à surveiller</p></div>', unsafe_allow_html=True)
-    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🌿 Niveau de maturité moyen</p><p class="kpi-val">{fdf["Ripeness(1-5)"].mean():.2f}<span> sur 5</span></p><p class="kpi-ref">Les fruits bien mûrs sont systématiquement mieux notés</p></div>', unsafe_allow_html=True)
-    with c8: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧪 Niveau d\'acidité moyen</p><p class="kpi-val">{fdf["pH(Acidity)"].mean():.2f}</p><p class="kpi-ref">Toutes les oranges ont une acidité très proche : c\'est un bon signe</p></div>', unsafe_allow_html=True)
+    with c5: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Douceur moyenne</p><p class="kpi-val">{fdf["Brix(Sweetness)"].mean():.1f}</p><p class="kpi-ref">Plus ce chiffre est élevé, plus l\'orange est sucrée et bonne</p></div>', unsafe_allow_html=True)
+    with c6: st.markdown(f'<div class="kpi r"><p class="kpi-lbl"> Jours écoulés depuis la récolte</p><p class="kpi-val">{fdf["HarvestTime(days)"].mean():.0f}<span> jours</span></p><p class="kpi-ref">Plus l\'orange attend, moins elle est bonne.à surveiller</p></div>', unsafe_allow_html=True)
+    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Niveau de maturité moyen</p><p class="kpi-val">{fdf["Ripeness(1-5)"].mean():.2f}<span> sur 5</span></p><p class="kpi-ref">Les fruits bien mûrs sont systématiquement mieux notés</p></div>', unsafe_allow_html=True)
+    with c8: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Niveau d\'acidité moyen</p><p class="kpi-val">{fdf["pH(Acidity)"].mean():.2f}</p><p class="kpi-ref">Toutes les oranges ont une acidité très proche : c\'est un bon signe</p></div>', unsafe_allow_html=True)
 
     st.markdown('<div class="sec">Aperçu des données</div>', unsafe_allow_html=True)
     st.dataframe(fdf.drop(columns=['sans_defaut']).head(10), use_container_width=True, height=320)
@@ -266,13 +266,13 @@ if "Accueil" in page:
 # STATISTIQUES DESCRIPTIVES
 
 elif "Chiffres" in page:
-    st.markdown('<div class="sec">📊 Statistiques Descriptives</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> Statistiques Descriptives</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="sec-s">Section 3 du notebook</div>', unsafe_allow_html=True)
     stats = fdf[NUM].describe().T.round(4).reset_index().rename(columns={"index":"Variable"})
     st.dataframe(stats, use_container_width=True, height=340)
 
-    st.markdown("""<div class="ins bl"><span class="ins-ic">📋</span><div>
+    st.markdown("""<div class="ins bl"><span class="ins-ic"></span><div>
       <p class="ins-t">Interprétation: Statistiques descriptives</p>
       <p class="ins-tx">Sur les 241 oranges analysées, les résultats sont globalement encourageants. La qualité se révèle assez homogène, avec une note moyenne de 3,8 sur 5 ; la plupart des fruits dépassent d'ailleurs la barre des 4. Côté profil gustatif, on est sur des oranges bien sucrées, avec un indice Brix autour de 10,9, et une acidité tout à fait classique pour la variété (pH de 3,47 en moyenne).<br><br>Les gabarits varient pas mal d'un fruit à l'autre  entre 100 g et 300 g, ce qui traduit une certaine diversité physique dans l'échantillon. Enfin, la maturité est au rendez-vous : les fruits sont bien mûrs en moyenne (3,6/5), récoltés environ 15 jours après le pic de maturité.</p>
     </div></div>""", unsafe_allow_html=True)
@@ -303,7 +303,7 @@ elif "Chiffres" in page:
 # DISTRIBUTIONS NUMÉRIQUES
 
 elif "Répartition" in page:
-    st.markdown('<div class="sec">📉 Distribution des Variables Numériques</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> Distribution des Variables Numériques</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Analyse univariée — Section 4 du notebook</div>', unsafe_allow_html=True)
 
     # Vue globale identique au notebook (4×2)
@@ -336,7 +336,7 @@ elif "Répartition" in page:
     st.plotly_chart(fig, use_container_width=True)
 
     # Interprétation complète du notebook
-    st.markdown("""<div class="ins bl"><span class="ins-ic">🔍</span><div>
+    st.markdown("""<div class="ins bl"><span class="ins-ic"></span><div>
       <p class="ins-t">Interprétation : Distribution des Variables Numériques</p>
       <p class="ins-tx">
         <strong>Qualité (Quality 1-5)</strong> : La qualité est clairement orientée vers le haut : la grande majorité des oranges obtiennent une note de 4 ou 5, avec une moyenne de 3,82. Les fruits de mauvaise qualité (note 1 ou 2) sont vraiment l'exception. C'est le signe d'un lot globalement sain et bien sélectionné.<br><br>
@@ -374,7 +374,7 @@ elif "Répartition" in page:
             title_font_size=13,
             annotations=[dict(
                 x=0.5, y=-0.22, xref="paper", yref="paper",
-                text=f"📊 Chaque barre = intervalle de valeurs · Hauteur = nombre d'oranges dans cet intervalle",
+                text=f" Chaque barre = intervalle de valeurs · Hauteur = nombre d'oranges dans cet intervalle",
                 showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
             )]
         )
@@ -401,7 +401,7 @@ elif "Répartition" in page:
 # VARIABLES CATÉGORIELLES
 
 elif "Couleurs" in page:
-    st.markdown('<div class="sec">🏷️ Analyse des Variables Catégorielles</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> Analyse des Variables Catégorielles</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Analyse univariée — Section 5 du notebook</div>', unsafe_allow_html=True)
 
     # Graphique 1 : Distribution des Couleurs (bar)
@@ -427,7 +427,7 @@ elif "Couleurs" in page:
         title_font_size=13,
         annotations=[dict(
             x=0.5, y=-0.2, xref="paper", yref="paper",
-            text="📌 Lecture : chaque barre = une couleur · Hauteur = nombre d'oranges de cette couleur dans le dataset",
+            text=" Lecture : chaque barre = une couleur · Hauteur = nombre d'oranges de cette couleur dans le dataset",
             showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
         )]
     )
@@ -456,7 +456,7 @@ elif "Couleurs" in page:
         title_font_size=13,
         annotations=[dict(
             x=1.0, y=-0.08, xref="paper", yref="paper",
-            text="📌 Lecture : chaque barre = une variété · Plus la barre est longue, plus la variété est représentée · Ligne pointillée = moyenne",
+            text=" Lecture : chaque barre = une variété · Plus la barre est longue, plus la variété est représentée · Ligne pointillée = moyenne",
             showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="right"
         )]
     )
@@ -515,7 +515,7 @@ elif "Couleurs" in page:
         st.plotly_chart(fig, use_container_width=True)
 
     # Graphique 4 : Interprétation du notebook
-    st.markdown("""<div class="ins gn"><span class="ins-ic">🌈</span><div>
+    st.markdown("""<div class="ins gn"><span class="ins-ic"></span><div>
       <p class="ins-t">Interprétation : Variables Catégorielles</p>
       <p class="ins-tx">Les oranges de cet échantillon présentent un profil globalement très sain. Côté couleur, les teintes foncées (Deep Orange, Light Orange, Orange-Red) dominent largement, signe d'une bonne maturité générale, tandis que le Yellow-Orange, caractéristique des fruits jeunes, reste anecdotique.<br><br>
       La diversité variétale est notable : plusieurs variétés sont représentées avec des effectifs assez équilibrés, la Cara Cara prenant légèrement la tête devant la Star Ruby et la Temple. Aucune variété n'écrase les autres, ce qui donne à cet échantillon une bonne représentativité.<br><br>
@@ -526,11 +526,11 @@ elif "Couleurs" in page:
 # CORRÉLATIONS
 
 elif "Facteurs" in page:
-    st.markdown('<div class="sec">🔗 Matrice de Corrélation</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> Matrice de Corrélation</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Section 6.1 du notebook — Variables numériques</div>', unsafe_allow_html=True)
 
     # Heatmap triangulaire (identique au notebook)
-    st.markdown('<p class="sec-s">Chaque cellule = coefficient de corrélation r entre deux variables · 🔴 rouge = corrélation positive · 🔵 bleu = corrélation négative · Plus la couleur est intense, plus le lien est fort</p>', unsafe_allow_html=True)
+    st.markdown('<p class="sec-s">Chaque cellule = coefficient de corrélation r entre deux variables ·  rouge = corrélation positive ·  bleu = corrélation négative · Plus la couleur est intense, plus le lien est fort</p>', unsafe_allow_html=True)
     mask = np.triu(np.ones_like(corr_mat, dtype=bool))
     z_masked = corr_mat.copy().values.astype(float)
     z_masked[mask] = np.nan
@@ -566,7 +566,7 @@ elif "Facteurs" in page:
     c1, c2 = st.columns([2, 3])
     with c1:
         st.markdown("**Corrélations avec la Qualité (triées)**")
-        st.markdown('<p style="font-size:.78rem;color:#FFB866">🟢 vert = corrélation positive (hausse ensemble) · 🔴 rouge = corrélation négative (l\'un monte, l\'autre baisse)</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size:.78rem;color:#FFB866"> vert = corrélation positive (hausse ensemble) ·  rouge = corrélation négative (l\'un monte, l\'autre baisse)</p>', unsafe_allow_html=True)
         for var, r in corr_quality.items():
             bc = "#2E7D4F" if r > 0 else "#C0392B"
             cls = "p" if r > 0 else "n"
@@ -593,7 +593,7 @@ elif "Facteurs" in page:
                           height=320, yaxis={'categoryorder':'array','categoryarray':cq_df['label'].tolist()})
         st.plotly_chart(fig, use_container_width=True)
 
-    st.markdown("""<div class="ins bl"><span class="ins-ic">📐</span><div>
+    st.markdown("""<div class="ins bl"><span class="ins-ic"></span><div>
       <p class="ins-t">Interprétation : Matrice de corrélation</p>
       <p class="ins-tx">
         <strong>Brix (sucre) et Qualité (r = +0.63)</strong> : C'est le lien le plus fort de la matrice : une orange sucrée est presque systématiquement bien notée.<br><br>
@@ -611,7 +611,7 @@ elif "Facteurs" in page:
     r_val = fdf[[xv, yv]].corr().iloc[0,1]
     direction = "positive" if r_val > 0 else "négative"
     force = "forte" if abs(r_val) > 0.5 else ("modérée" if abs(r_val) > 0.25 else "faible")
-    st.markdown(f'<p style="font-size:.82rem;color:#FFB866;margin-bottom:8px">📐 Corrélation entre ces deux variables : <strong>r = {r_val:+.2f}</strong> — relation {direction} {force}</p>', unsafe_allow_html=True)
+    st.markdown(f'<p style="font-size:.82rem;color:#FFB866;margin-bottom:8px"> Corrélation entre ces deux variables : <strong>r = {r_val:+.2f}</strong> — relation {direction} {force}</p>', unsafe_allow_html=True)
     fig = px.scatter(fdf, x=xv, y=yv, color="Color", color_discrete_sequence=OSEQ,
                      trendline="ols",
                      hover_data=["Variety","Quality(1-5)"],
@@ -625,7 +625,7 @@ elif "Facteurs" in page:
         title_font_size=13,
         annotations=[dict(
             x=0.5, y=-0.18, xref="paper", yref="paper",
-            text=f"💡 Survolez un point pour voir les détails de l'orange · La droite de tendance montre la direction générale du lien",
+            text=f" Survolez un point pour voir les détails de l'orange · La droite de tendance montre la direction générale du lien",
             showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="center"
         )]
     )
@@ -635,7 +635,7 @@ elif "Facteurs" in page:
 # TEST KHI-2
 
 elif "Liens" in page:
-    st.markdown('<div class="sec">🔴 Test du Khi-2 — Variables Catégorielles</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> Test du Khi-2 — Variables Catégorielles</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Section 6.2 du notebook — Relation entre variables catégorielles</div>', unsafe_allow_html=True)
 
     cat_cols = ['Color','Variety','Blemishes(Y/N)']
@@ -706,7 +706,7 @@ elif "Liens" in page:
                   annotation_text='Seuil indicatif — force forte (Chi²> 50)',
                   annotation_position='top left', annotation_font_size=11)
     fig.update_layout(
-        title="Valeurs Chi² pour chaque paire de variables catégorielles<br><sup>🟢 vert = relation significative (p&lt;0.05) · 🟠 orange = zone grise · 🔴 rouge = pas de relation · Plus Chi² est grand, plus le lien est fort</sup>",
+        title="Valeurs Chi² pour chaque paire de variables catégorielles<br><sup> vert = relation significative (p&lt;0.05) ·  orange = zone grise ·  rouge = pas de relation · Plus Chi² est grand, plus le lien est fort</sup>",
         yaxis_title='Valeur Chi² (plus grand = lien plus fort)',
         xaxis_title='Paire de variables testées',
         paper_bgcolor=BG, plot_bgcolor=PLT_BG,
@@ -715,7 +715,7 @@ elif "Liens" in page:
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    st.markdown("""<div class="ins am"><span class="ins-ic">📌</span><div>
+    st.markdown("""<div class="ins am"><span class="ins-ic"></span><div>
       <p class="ins-t">Interprétation globale du Khi-2</p>
       <p class="ins-tx">Le test du Khi-2 révèle que la couleur et la variété sont fortement liées entre elles (Chi²=233,8, p≈0), ce qui est biologiquement logique. En revanche, ni la couleur ni la variété ne permettent de prédire la présence de défauts avec certitude. La conclusion clé : les défauts visuels sont indépendants du profil variétal, ce qui confirme leur caractère accidentel et superficiel.</p>
     </div></div>""", unsafe_allow_html=True)
@@ -724,7 +724,7 @@ elif "Liens" in page:
 # ANOVA / T-TEST
 
 elif "Variation" in page:
-    st.markdown('<div class="sec">📐 ANOVA / T-test : Numériques et Catégorielles</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> ANOVA / T-test : Numériques et Catégorielles</div>', unsafe_allow_html=True)
     st.markdown('<div class="sec-s">Section 6.3 du notebook — Relation entre variables numériques et catégorielles</div>', unsafe_allow_html=True)
 
     cat_cols = ['Color','Variety','Blemishes(Y/N)']
@@ -811,7 +811,7 @@ elif "Variation" in page:
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    st.markdown("""<div class="ins bl"><span class="ins-ic">📊</span><div>
+    st.markdown("""<div class="ins bl"><span class="ins-ic"></span><div>
       <p class="ins-t">Interprétation du graphique</p>
       <p class="ins-tx">
         La ligne rouge pointillée est le seuil : toute barre qui la dépasse = relation significative (p &lt; 0.05).<br><br>
@@ -825,7 +825,7 @@ elif "Variation" in page:
 # ANALYSE QUALITÉ
 
 elif "bonne orange" in page:
-    st.markdown('<div class="sec">⭐ Analyse Approfondie de la Qualité</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> Analyse Approfondie de la Qualité</div>', unsafe_allow_html=True)
     st.markdown('<p class="sec-s">La Qualité (1-5) est la variable cible de l\'analyse — voici comment elle se distribue et ce qui l\'influence</p>', unsafe_allow_html=True)
 
     # Graphique 1 : Distribution + Qualité par couleur
@@ -930,7 +930,7 @@ elif "bonne orange" in page:
             title_font_size=12,
             annotations=[dict(
                 x=0.5, y=-0.22, xref="paper", yref="paper",
-                text="⚠️ T-test : p = 0.117 — la différence n'est PAS statistiquement significative",
+                text=" T-test : p = 0.117 — la différence n'est PAS statistiquement significative",
                 showarrow=False, font=dict(size=10, color=PLT_WARN), xanchor="center"
             )]
         )
@@ -954,13 +954,13 @@ elif "bonne orange" in page:
             title_font_size=12,
             annotations=[dict(
                 x=1.0, y=-0.18, xref="paper", yref="paper",
-                text="📌 Les scores proches entre N et les autres codes confirment l'absence d'impact des défauts sur la qualité",
+                text=" Les scores proches entre N et les autres codes confirment l'absence d'impact des défauts sur la qualité",
                 showarrow=False, font=dict(size=10, color=PLT_ANN), xanchor="right"
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
 
-    st.markdown("""<div class="ins am"><span class="ins-ic">🧫</span><div>
+    st.markdown("""<div class="ins am"><span class="ins-ic"></span><div>
       <p class="ins-t">Les défauts visuels n'impactent pas la qualité : résultat clé</p>
       <p class="ins-tx">Le T-test confirme ce que le graphique montre : la relation entre défauts visuels et qualité n'est pas statistiquement significative (p = 0.117). Quand un défaut apparaît, il est le plus souvent superficiel, un coup de soleil, une cicatrice, sans impact réel sur la qualité intrinsèque du fruit. Un fruit avec des défauts peut tout à fait avoir une bonne note de qualité.</p>
     </div></div>""", unsafe_allow_html=True)
@@ -975,27 +975,27 @@ elif "Résultats" in page:
       <p class="hero-sub">Synthèse complète des informations utiles identifiées par l'analyse exploratoire</p>
     </div>""", unsafe_allow_html=True)
 
-    st.markdown('<div class="sec">🎯 Les 3 choses qui font une bonne orange</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> Les 3 choses qui font une bonne orange</div>', unsafe_allow_html=True)
     c1,c2,c3 = st.columns(3)
-    with c1: st.markdown('<div class="kpi g"><span style="font-size:1.4rem">🥇</span><p class="kpi-lbl">Ce qui compte le plus</p><p class="kpi-val" style="font-size:1.15rem">Le taux de sucre</p><p class="kpi-ref">Plus l\'orange est sucrée, meilleure est sa note de qualité</p></div>', unsafe_allow_html=True)
-    with c2: st.markdown('<div class="kpi r"><span style="font-size:1.4rem">🥈</span><p class="kpi-lbl">Ce qu\'il faut surveiller</p><p class="kpi-val" style="font-size:1.15rem">Le temps après récolte</p><p class="kpi-ref">Plus l\'orange attend, plus sa qualité se dégrade</p></div>', unsafe_allow_html=True)
-    with c3: st.markdown('<div class="kpi"><span style="font-size:1.4rem">🥉</span><p class="kpi-lbl">Les signes d\'alerte</p><p class="kpi-val" style="font-size:1.15rem">La mollesse et l\'acidité</p><p class="kpi-ref">Quand le fruit ramollit ou devient trop acide, la qualité baisse</p></div>', unsafe_allow_html=True)
+    with c1: st.markdown('<div class="kpi g"><span style="font-size:1.4rem"></span><p class="kpi-lbl">Ce qui compte le plus</p><p class="kpi-val" style="font-size:1.15rem">Le taux de sucre</p><p class="kpi-ref">Plus l\'orange est sucrée, meilleure est sa note de qualité</p></div>', unsafe_allow_html=True)
+    with c2: st.markdown('<div class="kpi r"><span style="font-size:1.4rem"></span><p class="kpi-lbl">Ce qu\'il faut surveiller</p><p class="kpi-val" style="font-size:1.15rem">Le temps après récolte</p><p class="kpi-ref">Plus l\'orange attend, plus sa qualité se dégrade</p></div>', unsafe_allow_html=True)
+    with c3: st.markdown('<div class="kpi"><span style="font-size:1.4rem"></span><p class="kpi-lbl">Les signes d\'alerte</p><p class="kpi-val" style="font-size:1.15rem">La mollesse et l\'acidité</p><p class="kpi-ref">Quand le fruit ramollit ou devient trop acide, la qualité baisse</p></div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="sec">📊 Chiffres clés du lot analysé</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> Chiffres clés du lot analysé</div>', unsafe_allow_html=True)
     c1,c2,c3,c4 = st.columns(4)
-    with c1: st.markdown(f'<div class="kpi g"><p class="kpi-lbl">⭐ Note de qualité moyenne</p><p class="kpi-val">3.82<span> sur 5</span></p><p class="kpi-ref">La majorité des oranges sont bien notées</p></div>', unsafe_allow_html=True)
-    with c2: st.markdown(f'<div class="kpi g"><p class="kpi-lbl">✅ Oranges bien notées</p><p class="kpi-val">65.1<span>%</span></p><p class="kpi-ref">157 oranges sur 241 ont une note de 4 ou 5 sur 5</p></div>', unsafe_allow_html=True)
-    with c3: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">⚠️ Oranges à écarter</p><p class="kpi-val">9.5<span>%</span></p><p class="kpi-ref">23 oranges jugées de mauvaise qualité dans ce lot</p></div>', unsafe_allow_html=True)
-    with c4: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧫 Oranges sans tache ni marque</p><p class="kpi-val">61.8<span>%</span></p><p class="kpi-ref">149 oranges d\'apparence parfaite sur 241</p></div>', unsafe_allow_html=True)
+    with c1: st.markdown(f'<div class="kpi g"><p class="kpi-lbl"> Note de qualité moyenne</p><p class="kpi-val">3.82<span> sur 5</span></p><p class="kpi-ref">La majorité des oranges sont bien notées</p></div>', unsafe_allow_html=True)
+    with c2: st.markdown(f'<div class="kpi g"><p class="kpi-lbl"> Oranges bien notées</p><p class="kpi-val">65.1<span>%</span></p><p class="kpi-ref">157 oranges sur 241 ont une note de 4 ou 5 sur 5</p></div>', unsafe_allow_html=True)
+    with c3: st.markdown(f'<div class="kpi r"><p class="kpi-lbl"> Oranges à écarter</p><p class="kpi-val">9.5<span>%</span></p><p class="kpi-ref">23 oranges jugées de mauvaise qualité dans ce lot</p></div>', unsafe_allow_html=True)
+    with c4: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Oranges sans tache ni marque</p><p class="kpi-val">61.8<span>%</span></p><p class="kpi-ref">149 oranges d\'apparence parfaite sur 241</p></div>', unsafe_allow_html=True)
 
     c5,c6,c7,c8 = st.columns(4)
-    with c5: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🍬 Douceur moyenne</p><p class="kpi-val">10.9</p><p class="kpi-ref">Plus ce chiffre est élevé, plus l\'orange est sucrée et bonne</p></div>', unsafe_allow_html=True)
-    with c6: st.markdown(f'<div class="kpi r"><p class="kpi-lbl">📅 Jours depuis la récolte</p><p class="kpi-val">15<span> jours</span></p><p class="kpi-ref">Plus l\'orange attend, moins elle est bonne</p></div>', unsafe_allow_html=True)
-    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🧪 Niveau d\'acidité moyen</p><p class="kpi-val">3.47</p><p class="kpi-ref">Toutes les oranges ont une acidité très proche — c\'est un bon signe</p></div>', unsafe_allow_html=True)
-    with c8: st.markdown(f'<div class="kpi"><p class="kpi-lbl">🌿 Niveau de maturité moyen</p><p class="kpi-val">3.6<span> sur 5</span></p><p class="kpi-ref">Les fruits bien mûrs sont systématiquement mieux notés</p></div>', unsafe_allow_html=True)
+    with c5: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Douceur moyenne</p><p class="kpi-val">10.9</p><p class="kpi-ref">Plus ce chiffre est élevé, plus l\'orange est sucrée et bonne</p></div>', unsafe_allow_html=True)
+    with c6: st.markdown(f'<div class="kpi r"><p class="kpi-lbl"> Jours depuis la récolte</p><p class="kpi-val">15<span> jours</span></p><p class="kpi-ref">Plus l\'orange attend, moins elle est bonne</p></div>', unsafe_allow_html=True)
+    with c7: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Niveau d\'acidité moyen</p><p class="kpi-val">3.47</p><p class="kpi-ref">Toutes les oranges ont une acidité très proche — c\'est un bon signe</p></div>', unsafe_allow_html=True)
+    with c8: st.markdown(f'<div class="kpi"><p class="kpi-lbl"> Niveau de maturité moyen</p><p class="kpi-val">3.6<span> sur 5</span></p><p class="kpi-ref">Les fruits bien mûrs sont systématiquement mieux notés</p></div>', unsafe_allow_html=True)
 
     # Synthèse résultats statistiques
-    st.markdown('<div class="sec">🧪 Synthèse des Tests Statistiques</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec"> Synthèse des Tests Statistiques</div>', unsafe_allow_html=True)
     c1,c2 = st.columns(2)
     with c1:
         st.markdown("**Khi-2 — Variables catégorielles**")
@@ -1018,8 +1018,8 @@ elif "Résultats" in page:
             st.markdown(f'<div class="card"><div class="card-hd"><span class="card-title">{cat} et Variables numériques</span><span class="bdg {bdg_cls}">{bdg_txt}</span></div><p class="interp">{desc}</p></div>', unsafe_allow_html=True)
 
     # Conclusion narrative complète
-    st.markdown('<div class="sec">📝 Conclusion Générale</div>', unsafe_allow_html=True)
-    st.markdown("""<div class="ins bl"><span class="ins-ic">🔑</span><div>
+    st.markdown('<div class="sec"> Conclusion Générale</div>', unsafe_allow_html=True)
+    st.markdown("""<div class="ins bl"><span class="ins-ic"></span><div>
       <p class="ins-t">Ce que l'analyse exploratoire nous apprend</p>
       <p class="ins-tx">Cet échantillon de 241 oranges décrit globalement des fruits de <strong>bonne qualité et bien mûrs</strong>, avec une acidité très stable. Le point le plus intrigant reste la sucrosité, dont la distribution en deux groupes distincts (autour de 8°Bx et 14°Bx) soulève une vraie question sur la composition du lot, probablement deux variétés ou deux origines différentes.<br><br>
       La <strong>sucrosité est le prédicteur numéro un</strong> de la qualité (r = +0.63). Loin devant tous les autres facteurs. C'est aussi le seul levier sur lequel on peut agir à la source, via le choix variétal et le timing de récolte.<br><br>
@@ -1027,7 +1027,7 @@ elif "Résultats" in page:
       La <strong>couleur est un résumé visuel de l'orange</strong> : liée significativement à toutes les variables numériques sans exception (ANOVA, p &lt; 0.05 pour chacune), elle constitue un indicateur de terrain rapide et fiable.</p>
     </div></div>""", unsafe_allow_html=True)
 
-    st.markdown("""<div class="ins gn"><span class="ins-ic">💡</span><div>
+    st.markdown("""<div class="ins gn"><span class="ins-ic"></span><div>
       <p class="ins-t">Recommandations opérationnelles</p>
       <p class="ins-tx">
         1. <strong>Surveiller le Brix en priorité</strong> : c'est le KPI qualité le plus prédictif. Un seuil minimum de 10°Bx devrait être défini pour la sélection.<br>
